@@ -1,3 +1,6 @@
+#include<bits/stdc++.h>
+using namespace std;
+
 template <typename T>
 struct FenwickTree {
     int n;
@@ -19,3 +22,18 @@ struct FenwickTree {
         return ask(r) - ask(l - 1);
     }
 };
+
+
+int main() {
+    vector<int> a {3,6,2,7,10,4};
+    FenwickTree<int> fen(a);
+
+    // a[1] + a[2] + a[3] = 6 + 2 + 7 = 15
+    cout << fen.ask(1, 3) << "\n";
+
+    // a[4] = a[4] + 2
+    fen.add(4, 2);
+
+    // 10 + 2 = 12
+    cout << fen.ask(4, 4) << "\n";
+}
