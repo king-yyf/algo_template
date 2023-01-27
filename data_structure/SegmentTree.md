@@ -44,9 +44,7 @@ struct SegTree {
     }
     S get_all() const {return d[1];}
 
-    void pull(int k) {
-        d[k] = op(d[2 * k], d[2 * k + 1]);
-    }
+    void pull(int k) { d[k] = op(d[2 * k], d[2 * k + 1]);}
     template <bool (*f)(S)> int max_right(int l) const {
         return max_right(l, [](S x) { return f(x); });
     }
@@ -105,8 +103,8 @@ struct SegTree {
 1.构造函数
 
 ```c++
-segtree<S, op, e> seg(int n)
-segtree<S, op, e> seg(vector<S> v)
+SegTree<S, op, e> seg(int n)
+SegTree<S, op, e> seg(vector<S> v)
 ```
 
 需要定义
@@ -126,7 +124,7 @@ int e() {
     return (int)1e9; 
 }
 
-segtree<int, op, e> seg(10); // 初始化长度为10数组，每个元素都是 e()
+SegTree<int, op, e> seg(10); // 初始化长度为10数组，每个元素都是 e()
 ```
 
 - 约束： 0 <= n <= 1e8
@@ -152,7 +150,7 @@ S seg.get(int p)
 - 约束: 0 <= p < n
 - 时间复杂度 O(1)
 
-3.prod函数
+3.区间查询函数 get
 
 如果 l=r, 返回 e(), 否则 返回 op(a[l], a[l+1], ... , a[r - 1]) 
 
@@ -163,7 +161,7 @@ S seg.get(int l, int r)
 - 时间复杂度 O(log(n))
 
 
-4.all_prod函数
+4.get_all 函数
 
 如果 n=0, 返回 e(), 否则 返回 op(a[0], a[1], ... , a[n - 1]) 
 
