@@ -99,5 +99,15 @@
         <td><a href="./string/string.md">最小表示法</a></td>
         <td><a href="https://king-yyf.github.io/2022/04/string/">最小表示法</a></td>
     </tr>
-
+     <tr>
+        <td rowspan="8">图论</td>
+        <td>Dijkstra最短路</td>
+        <td><a href="./graph/Dijkstra.md">Dijkstra最短路</a></td>
+        <td><a href="./graph/Dijkstra.cpp">Dijkstra最短路</a></td>
+    </tr>
+     <tr>
+        <td>二分图判定</td>
+        <td><a href="./graph/Bigraph.md">二分图判定</a></td>
+        <td><a href="https://king-yyf.github.io/2022/09/bigraph/">二分图判定</a></td>
+    </tr>
 </table>
