@@ -110,4 +110,14 @@
         <td><a href="./graph/Bigraph.md">二分图判定</a></td>
         <td><a href="https://king-yyf.github.io/2022/09/bigraph/">二分图判定</a></td>
     </tr>
+    <tr>
+        <td>二分图匹配</td>
+        <td><a href="./graph/BigraphMatch.md">二分图匹配</a></td>
+        <td><a href="https://king-yyf.github.io/2022/09/bigraph/">二分图匹配</a></td>
+    </tr>
+    <tr>
+        <td>强连通分量</td>
+        <td><a href="./graph/StronglyConnectedComponents.md">强连通分量</a></td>
+        <td><a href="./graph/StronglyConnectedComponents.cpp">强连通分量</a></td>
+    </tr>
 </table>
