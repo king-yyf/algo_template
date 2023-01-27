@@ -8,7 +8,7 @@
         <th>示例代码或博客</th>
     </tr>
     <tr>
-        <td rowspan="10">数据结构</td>
+        <td rowspan="9">数据结构</td>
         <td>一维树状数组</td>
         <td><a href="./data_structure/FenwickTree.md">FenwickTree</a></td>
         <td><a href="./data_structure/FenwickTree.cpp">FenwickTree.cpp</a></td>
@@ -52,6 +52,42 @@
         <td>01字典树/可持久化01字典树</td>
         <td><a href="./data_structure/XORTrie.md">01字典树</a></td>
         <td><a href="https://king-yyf.github.io/2021/04/xor_trie/">异或与字典树</a></td>
+    </tr>
+    <tr>
+        <td rowspan="9">字符串</td>
+        <td>字符串哈希</td>
+        <td><a href="./data_structure/StringHash.md">字符串哈希</a></td>
+        <td><a href="./data_structure/StringHash.cpp">StringHash.cpp</a></td>
+    </tr>
+    <tr>
+        <td>manacher算法</td>
+        <td><a href="./data_structure/string.md">manacher算法</a></td>
+        <td><a href="https://king-yyf.github.io/2022/04/string/">manacher算法</a></td>
+    </tr>
+    <tr>
+        <td>kmp算法</td>
+        <td><a href="./data_structure/string.md">kmp算法</a></td>
+        <td><a href="https://king-yyf.github.io/2022/04/string/">kmp算法</a></td>
+    </tr>
+     <tr>
+        <td>z_function</td>
+        <td><a href="./data_structure/string.md">z_function</a></td>
+        <td><a href="https://king-yyf.github.io/2022/04/string/">z_function</a></td>
+    </tr>
+    <tr>
+        <td>后缀数组</td>
+        <td><a href="./data_structure/string.md">后缀数组</a></td>
+        <td><a href="https://king-yyf.github.io/2022/04/string/">后缀数组</a></td>
+    </tr>
+    <tr>
+        <td>回文树/回文自动机</td>
+        <td><a href="./data_structure/string.md">回文自动机</a></td>
+        <td><a href="https://king-yyf.github.io/2022/04/string/">回文自动机</a></td>
+    </tr>
+    <tr>
+        <td>后缀自动机</td>
+        <td><a href="./data_structure/string.md">后缀自动机</a></td>
+        <td><a href="https://king-yyf.github.io/2022/04/string/">后缀自动机</a></td>
     </tr>
 
 </table>
