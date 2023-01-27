@@ -1,4 +1,4 @@
-# 算法模版整理
+# 算法模板整理
 
 <table>
 	<tr>
@@ -56,38 +56,48 @@
     <tr>
         <td rowspan="9">字符串</td>
         <td>字符串哈希</td>
-        <td><a href="./data_structure/StringHash.md">字符串哈希</a></td>
-        <td><a href="./data_structure/StringHash.cpp">StringHash.cpp</a></td>
+        <td><a href="./string/StringHash.md">字符串哈希</a></td>
+        <td><a href="./string/StringHash.cpp">StringHash.cpp</a></td>
     </tr>
     <tr>
         <td>manacher算法</td>
-        <td><a href="./data_structure/string.md">manacher算法</a></td>
+        <td><a href="./string/string.md">manacher算法</a></td>
         <td><a href="https://king-yyf.github.io/2022/04/string/">manacher算法</a></td>
     </tr>
     <tr>
         <td>kmp算法</td>
-        <td><a href="./data_structure/string.md">kmp算法</a></td>
+        <td><a href="./string/string.md">kmp算法</a></td>
         <td><a href="https://king-yyf.github.io/2022/04/string/">kmp算法</a></td>
     </tr>
      <tr>
         <td>z_function</td>
-        <td><a href="./data_structure/string.md">z_function</a></td>
+        <td><a href="./string/string.md">z_function</a></td>
         <td><a href="https://king-yyf.github.io/2022/04/string/">z_function</a></td>
     </tr>
     <tr>
         <td>后缀数组</td>
-        <td><a href="./data_structure/string.md">后缀数组</a></td>
+        <td><a href="./string/string.md">后缀数组</a></td>
         <td><a href="https://king-yyf.github.io/2022/04/string/">后缀数组</a></td>
     </tr>
     <tr>
         <td>回文树/回文自动机</td>
-        <td><a href="./data_structure/string.md">回文自动机</a></td>
+        <td><a href="./string/string.md">回文自动机</a></td>
         <td><a href="https://king-yyf.github.io/2022/04/string/">回文自动机</a></td>
     </tr>
     <tr>
         <td>后缀自动机</td>
-        <td><a href="./data_structure/string.md">后缀自动机</a></td>
+        <td><a href="./string/string.md">后缀自动机</a></td>
         <td><a href="https://king-yyf.github.io/2022/04/string/">后缀自动机</a></td>
+    </tr>
+    <tr>
+        <td>lyndon分解</td>
+        <td><a href="./string/string.md">lyndon分解</a></td>
+        <td><a href="https://king-yyf.github.io/2022/04/string/">lyndon分解</a></td>
+    </tr>
+    <tr>
+        <td>最小表示法</td>
+        <td><a href="./string/string.md">最小表示法</a></td>
+        <td><a href="https://king-yyf.github.io/2022/04/string/">最小表示法</a></td>
     </tr>
 
 </table>
