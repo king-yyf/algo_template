@@ -1,56 +1,43 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-// problem : https://www.acwing.com/problem/content/852/
+// problem : https://www.acwing.com/problem/content/description/852/
 
-const int DN = 1.5e5+10;
-class DIJ {
-public:
+template<typename T>
+struct Dijkstra {
+    using E = pair<T, int>;
+    int n;
+    vector<vector<E>> g;    // cost, to
+    Dijkstra(int N) : n(N), g(N) {}
 
-    struct Edge{
-        int t, c; //to,cost
-        Edge(int u, int v): t(u), c(v) {}
-        bool operator < (const Edge& o) const {
-            return c > o.c;
-        }
-    };
-
-    using T = int;
-    T dis[DN];
-    bool vis[DN];
-    vector<Edge> g[DN];
-
-    DIJ(){}
-    //添加边，dir 是否是有向图
-    void add(int f, int t, int c, bool dir = 0) {
-        g[f].emplace_back(t, c);
-        if(dir == 0)
-            g[t].emplace_back(f, c);
+    void add_edge(int u, int v, T cost) {
+        g[u].emplace_back(cost, v);
     }
 
-    //从s到t的最短路,如果不存在路径输出-1.
-    T dijk(int s, int t) {
-        memset(dis,0x3f, sizeof(dis));
-        memset(vis, 0, sizeof(vis));
-        dis[s] = 0;
-        priority_queue<Edge, vector<Edge>> pq;
-        pq.push({s,0});
-        while (!pq.empty()) {
-            int v = pq.top().t;
-            pq.pop();
-            if(vis[v]) continue;
-            vis[v] = 1;
-            for (auto& e : g[v]) {
-                if (dis[e.t] > dis[v] + e.c) {
-                    dis[e.t] = dis[v] + e.c;
-                    pq.push({e.t, dis[e.t]});
+    void add_bidir_edge(int u, int v, T cost) {
+        add_edge(u, v, cost);
+        add_edge(v, u, cost);
+    }
+
+    vector<T> dijkstra(int s) {  // unreachable : -1
+        vector<T> d(n, T(-1)); 
+        priority_queue<E, vector<E>, greater<E>> q;
+        d[s] = 0;
+        q.emplace(0, s);
+        while (!q.empty()) {
+            auto [cost, u] = q.top();
+            q.pop();
+            if (d[u] < cost) continue;
+            for (auto &[c, v] : g[u]) {
+                if (d[v] == T(-1) || d[u] + c < d[v]) {
+                    d[v] = d[u] + c;
+                    q.emplace(d[v], v);
                 }
             }
-        }
-        return dis[t] < 0x3f3f3f3f ? dis[t] : -1;
+        } 
+        return d;
     }
 };
-
 
 int main() {
     ios::sync_with_stdio(false); 
@@ -58,11 +45,14 @@ int main() {
 
     int n, m;
     cin >> n >> m;
-    DIJ d;
+    Dijkstra<int> d(n);
     for (int i = 0, u, v, c; i < m; ++i) {
         cin >> u >> v >> c;
-        d.add(u, v, c, 1);
+        u--, v--;
+        d.add_edge(u, v, c);
     }
-    cout << d.dijk(1, n) << "\n";
+    auto ans = d.dijkstra(0);
+    cout << ans[n - 1] << "\n";
+
     return 0;
 }

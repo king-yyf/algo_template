@@ -4,85 +4,73 @@ Dijkstra 算法是一种求解 **非负权图** 上单源最短路径的算法�
 
 **时间复杂度**
 
-本模板使用优先队列实现， O(mlog(m))
+本模板使用优先队列实现， O(mlog(n))
 
 ### 模板代码
 
 
 ```c++
-const int DN = 1e5+10;
-class DIJ {
-public:
+template<typename T>
+struct Dijkstra {
+    using E = pair<T, int>;
+    int n;
+    vector<vector<E>> g;    // cost, to
+    Dijkstra(int N) : n(N), g(N) {}
 
-    struct Edge{
-        int t, c; //to,cost
-        Edge(int u, int v): t(u), c(v) {}
-        bool operator < (const Edge& o) const {
-            return c > o.c;
-        }
-    };
-
-    using T = int;
-    T dis[DN];
-    bool vis[DN];
-    vector<Edge> g[DN];
-
-    DIJ(){}
-    //添加边，dir 是否是有向图
-    void add(int f, int t, int c, bool dir = 0) {
-        g[f].emplace_back(t, c);
-        if(dir == 0)
-            g[t].emplace_back(f, c);
+    void add_edge(int u, int v, T cost) {
+        g[u].emplace_back(cost, v);
     }
 
-    //从s到t的最短路,如果不存在路径输出-1.
-    T dijk(int s, int t) {
-        memset(dis,0x3f, sizeof(dis));
-        memset(vis, 0, sizeof(vis));
-        dis[s] = 0;
-        priority_queue<Edge, vector<Edge>> pq;
-        pq.push({s,0});
-        while (!pq.empty()) {
-            int v = pq.top().t;
-            pq.pop();
-            if(vis[v]) continue;
-            vis[v] = 1;
-            for (auto& e : g[v]) {
-                if (dis[e.t] > dis[v] + e.c) {
-                    dis[e.t] = dis[v] + e.c;
-                    pq.push({e.t, dis[e.t]});
+    void add_bidir_edge(int u, int v, T cost) {
+        add_edge(u, v, cost);
+        add_edge(v, u, cost);
+    }
+
+    vector<T> dijkstra(int s) {  // unreachable : -1
+        vector<T> d(n, T(-1)); 
+        priority_queue<E, vector<E>, greater<E>> q;
+        d[s] = 0;
+        q.emplace(0, s);
+        while (!q.empty()) {
+            auto [cost, u] = q.top();
+            q.pop();
+            if (d[u] < cost) continue;
+            for (auto &[c, v] : g[u]) {
+                if (d[v] == T(-1) || d[u] + c < d[v]) {
+                    d[v] = d[u] + c;
+                    q.emplace(d[v], v);
                 }
             }
-        }
-        return dis[t] < 0x3f3f3f3f ? dis[t] : -1;
+        } 
+        return d;
     }
 };
 ```
 
 ### 使用说明
 
-1. 定义一个 DIJ
+1. 定义一个 Dijkstra, 点的编号从0开始
 
 ```c++
-DIJ d;
+Dijkstra<int> d(n);
 ```
 
 
-2. 添加 从 from 到 to， 边权为 cost 的边, 默认是无向边。
+2. 添加 从 from 到 to， 边权为 cost 的有向边。
 
 ```c++
-d.add(from, to, cost);
+d.add_edge(from, to, cost);
 ```
 
-如果是有向边， 设置 dir = 1.
+3. 添加 从 from 到 to， 边权为 cost 的无向边。
 
 ```c++
-d.add(from, to, cost, 1);
+d.add_bidir_edge(from, to, cost);
 ```
 
-
-3. 求 s 到 t 的最短路
+4. 求源点s到所有节点的最短路，不可达返回-1.
 
 ```c++
-int dis = d.dijk(s, t);
+auto ans = d.dijkstra(s);
 ```
+
