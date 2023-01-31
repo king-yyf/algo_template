@@ -16,16 +16,14 @@ struct SegTree {
     SegTree() : SegTree(0) {}
     explicit SegTree(int n) : SegTree(vector<S>(n, e())) {}
     explicit SegTree(const vector<S> &v) : n(int(v.size())) {
-        log = ceil_pow2(n), size = 1 << log;
+        log = ceil_lg(n), size = 1 << log;
         d = vector<S>(2 * size, e());
         for (int i = 0; i < n; i++) d[size + i] = v[i];
         for (int i = size - 1; i >= 1; i--) pull(i);
     }
-
-    int ceil_pow2(int n) {  // minimum non-neg x s.t. `n <= 2^x`
-        int x = 0;
-        while ((1U << x) < (unsigned int)(n)) x++;
-        return x;
+    int ceil_lg(int n) {   // minimum non-neg x s.t. `n <= 2^x`
+        int x = n == 0 ? 0 :  32 - __builtin_clz(n);
+        return  __builtin_popcount(n) == 1 ? x - 1: x;
     }
     void set(int p, S x) {  // assert(0 <= p < n)
         p += size, d[p] = x;
