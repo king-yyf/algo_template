@@ -108,7 +108,7 @@
     <tr>
         <td>01bfs</td>
         <td><a href="./graph/BinaryBFS.md">01bfs</a></td>
-        <td><a href="https://king-yyf.github.io/2022/09/bigraph/">01bfs</a></td>
+        <td><a href="./graph/BFS01.cpp/">01bfs</a></td>
     </tr>
      <tr>
         <td>二分图判定</td>
