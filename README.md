@@ -125,4 +125,9 @@
         <td><a href="./graph/StronglyConnectedComponents.md">强连通分量</a></td>
         <td><a href="./graph/StronglyConnectedComponents.cpp">强连通分量</a></td>
     </tr>
+    <tr>
+        <td>spfa找负环</td>
+        <td><a href="./graph/SPFA.md">spfa找负环</a></td>
+        <td><a href="./graph/SPFA.cpp">spfa找负环</a></td>
+    </tr>
 </table>
