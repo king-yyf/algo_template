@@ -292,7 +292,7 @@
     </tr>
     <tr>
         <td>树上莫队</td>
-        <td><a href="./graph/SPFA.md">树上莫队/a></td>
+        <td><a href="./graph/SPFA.md">树上莫队</a></td>
         <td><a href="./graph/SPFA.cpp">树上莫队</a></td>
     </tr>
 </table>
