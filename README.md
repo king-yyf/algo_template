@@ -100,7 +100,7 @@
         <td><a href="https://king-yyf.github.io/2022/04/string/">最小表示法</a></td>
     </tr>
      <tr>
-        <td rowspan="8">图论</td>
+        <td rowspan="12">图论</td>
         <td>Dijkstra最短路</td>
         <td><a href="./graph/Dijkstra.md">Dijkstra最短路</a></td>
         <td><a href="./graph/Dijkstra.cpp">Dijkstra最短路</a></td>
@@ -129,5 +129,170 @@
         <td>spfa找负环</td>
         <td><a href="./graph/SPFA.md">spfa找负环</a></td>
         <td><a href="./graph/SPFA.cpp">spfa找负环</a></td>
+    </tr>
+    <tr>
+        <td>差分约束问题</td>
+        <td><a href="./graph/SPFA.md">差分约束问题</a></td>
+        <td><a href="./graph/SPFA.cpp">差分约束问题</a></td>
+    </tr>
+    <tr>
+        <td>最小生成树</td>
+        <td><a href="./graph/SPFA.md">最小生成树</a></td>
+        <td><a href="./graph/SPFA.cpp">最小生成树</a></td>
+    </tr>
+    <tr>
+        <td>最短路径树</td>
+        <td><a href="./graph/SPFA.md">最短路径树</a></td>
+        <td><a href="./graph/SPFA.cpp">最短路径树</a></td>
+    </tr>
+    <tr>
+        <td>k短路</td>
+        <td><a href="./graph/SPFA.md">k短路</a></td>
+        <td><a href="./graph/SPFA.cpp">k短路</a></td>
+    </tr>
+    <tr>
+        <td>最大网络流</td>
+        <td><a href="./graph/SPFA.md">最大网络流</a></td>
+        <td><a href="./graph/SPFA.cpp">最大网络流</a></td>
+    </tr>
+    <tr>
+        <td>最小费用流</td>
+        <td><a href="./graph/SPFA.md">最小费用流</a></td>
+        <td><a href="./graph/SPFA.cpp">最小费用流</a></td>
+    </tr>
+     <tr>
+        <td rowspan="7">数学/数论</td>
+        <td>modint</td>
+        <td><a href="./graph/Dijkstra.md">modint</a></td>
+        <td><a href="./graph/Dijkstra.cpp">modint</a></td>
+    </tr>
+    <tr>
+        <td>质数</td>
+        <td><a href="./graph/SPFA.md">质数</a></td>
+        <td><a href="./graph/SPFA.cpp">质数</a></td>
+    </tr>
+    <tr>
+        <td>矩阵快速幂</td>
+        <td><a href="./graph/SPFA.md">矩阵快速幂</a></td>
+        <td><a href="./graph/SPFA.cpp">矩阵快速幂</a></td>
+    </tr>
+    <tr>
+        <td>容斥原理</td>
+        <td><a href="./graph/SPFA.md">容斥原理</a></td>
+        <td><a href="./graph/SPFA.cpp">容斥原理</a></td>
+    </tr>
+    <tr>
+        <td>排列组合</td>
+        <td><a href="./graph/SPFA.md">排列组合</a></td>
+        <td><a href="./graph/SPFA.cpp">排列组合</a></td>
+    </tr>
+    <tr>
+        <td>快速沃尔什变换</td>
+        <td><a href="./graph/SPFA.md">快速沃尔什变换</a></td>
+        <td><a href="./graph/SPFA.cpp">快速沃尔什变换</a></td>
+    </tr>
+    <tr>
+        <td>高精度运算</td>
+        <td><a href="./graph/SPFA.md">高精度运算</a></td>
+        <td><a href="./graph/SPFA.cpp">高精度运算</a></td>
+    </tr>
+    <tr>
+        <td rowspan="6">树上算法</td>
+        <td>最近公共祖先(LCA)</td>
+        <td><a href="./graph/Dijkstra.md">最近公共祖先(LCA)</a></td>
+        <td><a href="./graph/Dijkstra.cpp">最近公共祖先(LCA)</a></td>
+    </tr>
+    <tr>
+        <td>带权LCA</td>
+        <td><a href="./graph/SPFA.md">带权LCA</a></td>
+        <td><a href="./graph/SPFA.cpp">带权LCA</a></td>
+    </tr>
+    <tr>
+        <td>树的直径</td>
+        <td><a href="./graph/SPFA.md">树的直径</a></td>
+        <td><a href="./graph/SPFA.cpp">树的直径</a></td>
+    </tr>
+    <tr>
+        <td>点分治</td>
+        <td><a href="./graph/SPFA.md">点分治</a></td>
+        <td><a href="./graph/SPFA.cpp">点分治</a></td>
+    </tr>
+    <tr>
+        <td>点分树</td>
+        <td><a href="./graph/SPFA.md">点分树</a></td>
+        <td><a href="./graph/SPFA.cpp">点分树</a></td>
+    </tr>
+     <tr>
+        <td>树哈希</td>
+        <td><a href="./graph/SPFA.md">树哈希</a></td>
+        <td><a href="./graph/SPFA.cpp">树哈希</a></td>
+    </tr>
+     <tr>
+        <td rowspan="4">位运算</td>
+        <td>bitset</td>
+        <td><a href="./graph/Dijkstra.md">bitset</a></td>
+        <td><a href="./graph/Dijkstra.cpp">bitset</a></td>
+    </tr>
+     <tr>
+        <td>位运算</td>
+        <td><a href="./graph/SPFA.md">位运算</a></td>
+        <td><a href="./graph/SPFA.cpp">位运算</a></td>
+    </tr>
+    <tr>
+        <td>异或线形基</td>
+        <td><a href="./graph/SPFA.md">异或线形基</a></td>
+        <td><a href="./graph/SPFA.cpp">异或线形基</a></td>
+    </tr>
+    <tr>
+        <td>子集卷积</td>
+        <td><a href="./graph/SPFA.md">子集卷积</a></td>
+        <td><a href="./graph/SPFA.cpp">子集卷积</a></td>
+    </tr>
+    <tr>
+        <td rowspan="8">常用算法</td>
+        <td>并查集</td>
+        <td><a href="./graph/Dijkstra.md">并查集</a></td>
+        <td><a href="./graph/Dijkstra.cpp">并查集</a></td>
+    </tr>
+    <tr>
+        <td>二分算法</td>
+        <td><a href="./graph/SPFA.md">二分算法</a></td>
+        <td><a href="./graph/SPFA.cpp">二分算法</a></td>
+    </tr>
+    <tr>
+        <td>二维前缀和</td>
+        <td><a href="./graph/SPFA.md">二维前缀和</a></td>
+        <td><a href="./graph/SPFA.cpp">二维前缀和</a></td>
+    </tr>
+    <tr>
+        <td>二维差分</td>
+        <td><a href="./graph/SPFA.md">二维差分</a></td>
+        <td><a href="./graph/SPFA.cpp">二维差分</a></td>
+    </tr>
+    <tr>
+        <td>单调栈</td>
+        <td><a href="./graph/SPFA.md">单调栈</a></td>
+        <td><a href="./graph/SPFA.cpp">单调栈</a></td>
+    </tr>
+    <tr>
+        <td>单调队列</td>
+        <td><a href="./graph/SPFA.md">单调队列</a></td>
+        <td><a href="./graph/SPFA.cpp">单调队列</a></td>
+    </tr>
+    <tr>
+        <td>维护区间(交/并)</td>
+        <td><a href="./graph/SPFA.md">维护区间(交/并)</a></td>
+        <td><a href="./graph/SPFA.cpp">维护区间(交/并)</a></td>
+    </tr>
+    <tr>
+        <td rowspan="3">杂项</td>
+        <td>莫队</td>
+        <td><a href="./graph/Dijkstra.md">莫队</a></td>
+        <td><a href="./graph/Dijkstra.cpp">莫队</a></td>
+    </tr>
+    <tr>
+        <td>树上莫队</td>
+        <td><a href="./graph/SPFA.md">树上莫队/a></td>
+        <td><a href="./graph/SPFA.cpp">树上莫队</a></td>
     </tr>
 </table>
