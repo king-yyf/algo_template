@@ -249,7 +249,7 @@
         <td><a href="./graph/SPFA.cpp">子集卷积</a></td>
     </tr>
     <tr>
-        <td rowspan="8">常用算法</td>
+        <td rowspan="7">常用算法</td>
         <td>并查集</td>
         <td><a href="./graph/Dijkstra.md">并查集</a></td>
         <td><a href="./graph/Dijkstra.cpp">并查集</a></td>
