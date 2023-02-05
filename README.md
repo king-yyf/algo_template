@@ -240,7 +240,7 @@
     </tr>
      <tr>
         <td>位运算</td>
-        <td><a href="./graph/SPFA.md">位运算</a></td>
+        <td><a href="./bits/bitwise.md">位运算</a></td>
         <td><a href="./graph/SPFA.cpp">位运算</a></td>
     </tr>
     <tr>

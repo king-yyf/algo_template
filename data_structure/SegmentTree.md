@@ -21,9 +21,8 @@ struct SegTree {
         for (int i = 0; i < n; i++) d[size + i] = v[i];
         for (int i = size - 1; i >= 1; i--) pull(i);
     }
-    int ceil_lg(int n) {   // minimum non-neg x s.t. `n <= 2^x`
-        int x = n == 0 ? 0 :  32 - __builtin_clz(n);
-        return  __builtin_popcount(n) == 1 ? x - 1: x;
+    int ceil_lg(int x) {   // minimum non-neg x s.t. `n <= 2^x`
+        return x <= 1 ? 0 : 32 - __builtin_clz(x - 1);
     }
     void set(int p, S x) {  // assert(0 <= p < n)
         p += size, d[p] = x;
