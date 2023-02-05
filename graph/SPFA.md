@@ -25,7 +25,7 @@ struct SPFA {
         add_edge(v, u, cost);
     }
     
-    vector<T> spfa(int s) {  // unreachable : -1
+    vector<T> spfa(int s) {  // unreachable : inf
         vector<T> d(n, inf);
         vector<int> vis(n, 0);
         queue<int> q;
@@ -47,7 +47,7 @@ struct SPFA {
         return d;
     }
 
-    vector<T> spfa_slf(int s) {  // unreachable : -1
+    vector<T> spfa_slf(int s) {  // unreachable : inf
         vector<T> d(n, inf);
         vector<int> vis(n, 0);
         deque<int> q;

@@ -132,8 +132,8 @@
     </tr>
     <tr>
         <td>差分约束问题</td>
-        <td><a href="./graph/SPFA.md">差分约束问题</a></td>
-        <td><a href="./graph/SPFA.cpp">差分约束问题</a></td>
+        <td><a href="./graph/DiffCts.md">差分约束问题</a></td>
+        <td><a href="./graph/DiffCts.cpp">差分约束问题</a></td>
     </tr>
     <tr>
         <td>最小生成树</td>
@@ -163,8 +163,8 @@
      <tr>
         <td rowspan="7">数学/数论</td>
         <td>modint</td>
-        <td><a href="./graph/Dijkstra.md">modint</a></td>
-        <td><a href="./graph/Dijkstra.cpp">modint</a></td>
+        <td><a href="./math/modint.md">modint</a></td>
+        <td><a href="./math/modint.cpp">modint</a></td>
     </tr>
     <tr>
         <td>质数</td>
@@ -197,35 +197,40 @@
         <td><a href="./graph/SPFA.cpp">高精度运算</a></td>
     </tr>
     <tr>
-        <td rowspan="6">树上算法</td>
+        <td rowspan="7">树上算法</td>
         <td>最近公共祖先(LCA)</td>
-        <td><a href="./graph/Dijkstra.md">最近公共祖先(LCA)</a></td>
-        <td><a href="./graph/Dijkstra.cpp">最近公共祖先(LCA)</a></td>
+        <td><a href="./tree/Dijkstra.md">最近公共祖先(LCA)</a></td>
+        <td><a href="./tree/Dijkstra.cpp">最近公共祖先(LCA)</a></td>
     </tr>
     <tr>
         <td>带权LCA</td>
-        <td><a href="./graph/SPFA.md">带权LCA</a></td>
-        <td><a href="./graph/SPFA.cpp">带权LCA</a></td>
+        <td><a href="./tree/SPFA.md">带权LCA</a></td>
+        <td><a href="./tree/SPFA.cpp">带权LCA</a></td>
     </tr>
     <tr>
         <td>树的直径</td>
-        <td><a href="./graph/SPFA.md">树的直径</a></td>
-        <td><a href="./graph/SPFA.cpp">树的直径</a></td>
+        <td><a href="./tree/SPFA.md">树的直径</a></td>
+        <td><a href="./tree/SPFA.cpp">树的直径</a></td>
+    </tr>
+    <tr>
+        <td>树链剖分</td>
+        <td><a href="./tree/hld.md">树链剖分</a></td>
+        <td><a href="./tree/hld.cpp">树链剖分</a></td>
     </tr>
     <tr>
         <td>点分治</td>
-        <td><a href="./graph/SPFA.md">点分治</a></td>
-        <td><a href="./graph/SPFA.cpp">点分治</a></td>
+        <td><a href="./tree/hld.md">点分治</a></td>
+        <td><a href="./tree/hld.cpp">点分治</a></td>
     </tr>
     <tr>
         <td>点分树</td>
-        <td><a href="./graph/SPFA.md">点分树</a></td>
-        <td><a href="./graph/SPFA.cpp">点分树</a></td>
+        <td><a href="./tree/SPFA.md">点分树</a></td>
+        <td><a href="./tree/SPFA.cpp">点分树</a></td>
     </tr>
      <tr>
         <td>树哈希</td>
-        <td><a href="./graph/SPFA.md">树哈希</a></td>
-        <td><a href="./graph/SPFA.cpp">树哈希</a></td>
+        <td><a href="./tree/SPFA.md">树哈希</a></td>
+        <td><a href="./tree/SPFA.cpp">树哈希</a></td>
     </tr>
      <tr>
         <td rowspan="4">位运算</td>
