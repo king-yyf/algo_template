@@ -256,38 +256,38 @@
     <tr>
         <td rowspan="7">常用算法</td>
         <td>并查集</td>
-        <td><a href="./graph/Dijkstra.md">并查集</a></td>
-        <td><a href="./graph/Dijkstra.cpp">并查集</a></td>
+        <td><a href="./base_algo/disjointSet.md">并查集</a></td>
+        <td><a href="./base_algo/disjointSet.md">并查集</a></td>
     </tr>
     <tr>
         <td>二分算法</td>
-        <td><a href="./graph/SPFA.md">二分算法</a></td>
-        <td><a href="./graph/SPFA.cpp">二分算法</a></td>
+        <td><a href="./base_algo/binary_search.md">二分算法</a></td>
+        <td><a href="./base_algo/binary_search.md">二分算法</a></td>
     </tr>
     <tr>
         <td>二维前缀和</td>
-        <td><a href="./graph/SPFA.md">二维前缀和</a></td>
-        <td><a href="./graph/SPFA.cpp">二维前缀和</a></td>
+        <td><a href="./base_algo/prefixSum2d.md">二维前缀和</a></td>
+        <td><a href="./base_algo/prefixSum2d.md">二维前缀和</a></td>
     </tr>
     <tr>
         <td>二维差分</td>
-        <td><a href="./graph/SPFA.md">二维差分</a></td>
-        <td><a href="./graph/SPFA.cpp">二维差分</a></td>
+        <td><a href="./base_algo/PrefixDiff2D.md">二维差分</a></td>
+        <td><a href="./base_algo/PrefixDiff2D.md">二维差分</a></td>
     </tr>
     <tr>
         <td>单调栈</td>
-        <td><a href="./graph/SPFA.md">单调栈</a></td>
-        <td><a href="./graph/SPFA.cpp">单调栈</a></td>
+        <td><a href="./base_algo/stack.md">单调栈</a></td>
+        <td><a href="./base_algo/stack.cpp">单调栈</a></td>
     </tr>
     <tr>
         <td>单调队列</td>
-        <td><a href="./graph/SPFA.md">单调队列</a></td>
-        <td><a href="./graph/SPFA.cpp">单调队列</a></td>
+        <td><a href="./base_algo/queue.md">单调队列</a></td>
+        <td><a href="https://king-yyf.github.io/2021/03/que_stk/">单调队列</a></td>
     </tr>
     <tr>
         <td>维护区间(交/并)</td>
-        <td><a href="./graph/SPFA.md">维护区间(交/并)</a></td>
-        <td><a href="./graph/SPFA.cpp">维护区间(交/并)</a></td>
+        <td><a href="./base_algo/interval.md">维护区间(交/并)</a></td>
+        <td><a href="./base_algo/interval.cpp">维护区间(交/并)</a></td>
     </tr>
     <tr>
         <td rowspan="3">杂项</td>
@@ -301,8 +301,8 @@
         <td><a href="./graph/SPFA.cpp">树上莫队</a></td>
     </tr>
     <tr>
-        <td>树上莫队</td>
-        <td><a href="./misc/Discrete.md">树上莫队</a></td>
-        <td><a href="./misc/Discrete.md">树上莫队</a></td>
+        <td>数组离散化</td>
+        <td><a href="./misc/Discrete.md">数组离散化</a></td>
+        <td><a href="./misc/Discrete.md">数组离散化</a></td>
     </tr>
 </table>
