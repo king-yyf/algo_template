@@ -1,7 +1,7 @@
 # FenwickTree2D
 
 支持单点修改，区间查询的数据结构，时间复杂度均为 `O(log(n*m))`,
-本地 sublime 代码补全缩写 'fen'
+本地 sublime 代码补全缩写 `fen2d`
 
 
 

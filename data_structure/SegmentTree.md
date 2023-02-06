@@ -6,6 +6,8 @@
 
 [oi wiki介绍](https://oi-wiki.org/ds/seg/)
 
+本地 sublime 代码补全缩写 `seg`
+
 ### 模板代码
 
 ```c++

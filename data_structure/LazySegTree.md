@@ -2,6 +2,8 @@
 
 支持区间修改，区间查询的数据结构，时间复杂度均为 `O(log(n))`
 
+本地 sublime 代码补全缩写 `lazy`
+
 模板取自 atcoder library
 
 [atcoder doc](https://atcoder.github.io/ac-library/master/document_en/lazysegtree.html)

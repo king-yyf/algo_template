@@ -1,7 +1,7 @@
 # FenwickTree
 
 支持单点修改，区间查询的数据结构，时间复杂度均为 `O(log(n))`,
-本地 sublime 代码补全缩写 'bit'
+本地 sublime 代码补全缩写 `fen1d`
 
 
 ### 模板代码
