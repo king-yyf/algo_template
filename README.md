@@ -241,7 +241,7 @@
      <tr>
         <td>位运算</td>
         <td><a href="./bits/bitwise.md">位运算</a></td>
-        <td><a href="./graph/SPFA.cpp">位运算</a></td>
+        <td><a href="./bits/bitwise.cpp">位运算</a></td>
     </tr>
     <tr>
         <td>异或线形基</td>

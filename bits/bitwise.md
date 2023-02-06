@@ -33,7 +33,8 @@ struct Bits {
     int setback1(int k) {return (1 << k) - 1;}  // 返回低k位全为1的数(k从1开始)
     int countback1(int x) {return ctz(~x);} //  二进制中后缀1的个数
     int makemask(int l, int r) {return setback1(r + 1) ^ setback1(l);} // 第l位到第r位为1，其余为0的数
-} b;
+    string tostr(int x) {string s; for(int i=lg(x);i>=0;--i) s.push_back(get(x, i) + '0'); return s;} // 转为二进制字符串
+} B;
 
 template<typename F> // 按递增顺序枚举二进制包含k个1且小于2^n的数字
 void kbits(int n, int k, F &&f) {
@@ -47,10 +48,10 @@ void kbits(int n, int k, F &&f) {
 template<typename F> // 按递减顺序枚举二进制包含k个1且小于2^n的数字
 void kbits_rev(int n, int k, F &&f) {
     if (k == 0) { f(0); return;}
-    for (int s = b.makemask(n - k, n - 1), x = 0, y; x != k;) {
+    for (int s = B.makemask(n - k, n - 1), x = 0, y; x != k;) {
         f(s);
         x = __builtin_ctz(~s), s = s ^ ((1 << x) - 1), y = __builtin_ctz(s);
-        b.flip(s, y - x - 1, y);
+        B.flip(s, y - x - 1, y);
     }
 }
 template<typename F>  // 递增枚举二进制状态x的所有子集
@@ -73,21 +74,235 @@ void subkbits(int x, int k, F &&f) {
         if (x & (1 << i)) res[++j] = x & ((1 << (i + 1)) - 1);
     for (int s = res[k], back, a;;) {
         f(s);
-        back = b.setback1(b.ctz(s)) & x;
-        if (back < (s ^ x)) {
-            a = b.ctz(x - s - back);
-            int md = b.setback1(a) & s;
-            s += (1 << a) + res[b.pct(md) - 1] - md;
-        } else break;
+        back = B.setback1(B.ctz(s)) & x;
+        if (back >= (s ^ x)) break;
+        a = B.ctz(x - s - back);
+        int md = B.setback1(a) & s;
+        s += (1 << a) + res[B.pct(md) - 1] - md;
     }
 }
 template<typename F>  // 递减枚举某个元素的所有含有 k 个 1 的子状态
 void subkbits_rev(int x, int k, F &&f) {
     if (k > __builtin_popcount(x)) return;
-    // TODO
+    vector<int> res(33);
+    for (int i = 0, j = 0; i < 32; ++i)
+        if (x & (1 << i)) res[++j] = x & ((1 << (i + 1)) - 1);
+    for (int s = x - res[B.pct(x) - k], back;;) {
+        f(s);
+        back = B.setback1(B.ctz(x ^ s)) & x;
+        if (back >= s) break;
+        s ^= back ^ (B.setback1(B.ctz(s ^ back) + 1) & x);
+        s ^= res[B.pct(s) - k];
+    }
 }
 ```
 
 ### 使用说明
 
-见注释
+部分使用说明见注释，
+
+1. 统计二进制中有多少个前导0
+
+```c++
+int x = 5;  // 101
+long long y = 5; // 101
+cout << B.clz(x) << ", " << B.clz(y) << "\n";   // 29, 61
+```
+
+2. 二进制中后缀0的个数
+
+```c++
+int x = 24;  // 11000
+cout << B.ctz(x) << "\n";   // 3
+```
+
+3. 二进制中1的个数
+
+```c++
+int x = 85;  // 1010101
+int cnt = B.pct(x);  // 4
+```
+
+4. x二进制中1的个数模2的结果(1的个数的奇偶性)
+
+```c++
+B.prt(x);
+```
+
+5. floor(log(2)),可用于求 最大的 k 使得 x & (1 << k) == 1
+
+```c++
+int mx = B.lg(x);
+```
+
+6. ceil(log(2)), 可用于求 最小的 k 使得 x <= 2^k
+
+```c++
+B.clg(x);
+```
+
+7. 获取元素x的第i位 x & (1 << i).
+
+```c++
+B.get(x, i);
+```
+
+8. 将x的第i位设为1, x 是引用，直接修改
+
+```c++
+B.set(x, i);
+```
+
+9. 将x的第i位清0, x 是引用，直接修改
+
+```c++
+B.reset(x, i);
+```
+
+10. 翻转x的每一位
+
+```c++
+B.flip(x);
+```
+
+11. 翻转x的第i位
+
+```c++
+B.flip(x ,i)
+```
+
+12. 翻转x的第l位到第r位
+
+```c++
+B.flip(x, l, r);
+```
+
+13. 清零x的最高位至第i位(包括第i位和最高位)
+
+```c++
+B.resetleft(x, i);
+```
+
+14.  清零x的第i位至第0位(包括第i位和第0位)
+
+```c++
+B.resetright(x, i);
+```
+
+15. 将x的第i位设置为v
+
+```c++
+B.set(x, i, v);
+```
+
+16. 判断x是否为2的整数次方
+
+```c++
+B.ispow(x);
+```
+
+17.  统计二进制中后缀1的个数
+
+```c++
+int n = B.countback1(x);
+```
+
+18. 返回第l位到第r位为1，其余为0的数
+
+```c++
+int x = B.makemask(l, r);
+```
+
+19. x,y 二进制的汉明距离
+
+```c++
+int d = B.hamming(x, y);
+```
+
+20. 将整数转为二进制字符串
+
+```c++
+cout << B.tostr(85) << "\n"; // 1010101
+```
+
+21. 按递增顺序枚举二进制包含k个1且小于2^n的数字
+
+例如 n = 4, k = 2 时， 枚举所有小于 2^4(16), 且二进制中包含2个2的数字。
+输出为： `3 5 6 9 10 12 `
+
+```c++
+kbits(4, 2, [&](int x){
+    cout << x << " ";
+});
+cout << "\n";
+```
+
+22. 按递减顺序枚举二进制包含k个1且小于2^n的数字
+
+逆序， 同样 n = 4, k = 2 时，输出为： `12 10 9 6 5 3 `
+
+```c++
+kbits_rev(4, 2, [&](int x){
+    cout << x << " ";
+});
+cout << "\n";
+```
+
+23. 递增枚举二进制状态x的所有子集
+
+输出为: `0 1 2 3 8 9 10 11 `
+
+```c++
+submasks(11,[&](int x){
+    cout << x << " ";
+});
+cout << "\n";
+```
+
+24. 递减枚举二进制状态x的所有子集
+
+输出为: `11 10 9 8 3 2 1 0 `
+
+```c++
+submasks_rev(11,[&](int x){
+    cout << x << " ";
+});
+cout << "\n";
+```
+
+25. 枚举二进制状态x的所有小于2^n的超集
+
+输出为 `10 11 14 15 26 27 30 31`
+
+```c++
+supermasks(5,10,[&](int x){
+    cout << x << " ";
+});
+cout << "\n";
+```
+
+26. 递增枚举某个元素的所有含有 k 个 1 的子状态
+
+例如 85， 二进制为 1010101， 所有含2个1的子集。
+
+输出为 `5 17 20 65 68 80 `
+
+```c++
+subkbits(85,2,[&](int x){
+    cout << x << " ";
+});
+cout << "\n";
+```
+
+27. 递减枚举某个元素的所有含有 k 个 1 的子状态
+
+例如 85， 二进制为 1010101， 所有含2个1的子集。
+
+输出为 `80 68 65 20 17 5 `
+
+```c++
+subkbits_rev(85,2,[&](int x){
+    cout << x << " ";
+});
+cout << "\n";
+```
