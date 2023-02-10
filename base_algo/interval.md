@@ -149,3 +149,10 @@ if (it != rgs.end()) {
 } 
 ```
 
+6. 区间总长度
+
++ 时间复杂度 O(1)
+
+```c++
+cout << "length of ranges = " << rgs.siz << endl;
+```
