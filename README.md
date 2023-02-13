@@ -100,7 +100,7 @@
         <td><a href="https://king-yyf.github.io/2022/04/string/">最小表示法</a></td>
     </tr>
      <tr>
-        <td rowspan="12">图论</td>
+        <td rowspan="14">图论</td>
         <td>Dijkstra最短路</td>
         <td><a href="./graph/Dijkstra.md">Dijkstra最短路</a></td>
         <td><a href="./graph/Dijkstra.cpp">Dijkstra最短路</a></td>
@@ -123,7 +123,17 @@
     <tr>
         <td>强连通分量</td>
         <td><a href="./graph/StronglyConnectedComponents.md">强连通分量</a></td>
-        <td><a href="./graph/StronglyConnectedComponents.cpp">强连通分量</a></td>
+        <td><a href="https://king-yyf.github.io/2023/02/scc/">强连通分量</a></td>
+    </tr>
+    <tr>
+        <td>无向图的桥与边双连通分量</td>
+        <td><a href="./graph/edcc.md">无向图的桥与边双连通分量</a></td>
+        <td><a href="https://king-yyf.github.io/2023/02/scc/">无向图的桥与边双连通分量</a></td>
+    </tr>
+    <tr>
+        <td>无向图的割点与点双连通分量</td>
+        <td><a href="./graph/edcc.md">无向图的割点与点双连通分量</a></td>
+        <td><a href="https://king-yyf.github.io/2023/02/scc/">无向图的割点与点双连通分量</a></td>
     </tr>
     <tr>
         <td>spfa找负环</td>
