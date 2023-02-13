@@ -132,7 +132,7 @@
     </tr>
     <tr>
         <td>无向图的割点与点双连通分量</td>
-        <td><a href="./graph/edcc.md">无向图的割点与点双连通分量</a></td>
+        <td><a href="./graph/vdcc.md">无向图的割点与点双连通分量</a></td>
         <td><a href="https://king-yyf.github.io/2023/02/scc/">无向图的割点与点双连通分量</a></td>
     </tr>
     <tr>
