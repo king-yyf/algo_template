@@ -300,7 +300,7 @@
         <td><a href="./base_algo/interval.cpp">维护区间(交/并)</a></td>
     </tr>
     <tr>
-        <td rowspan="4">杂项</td>
+        <td rowspan="5">杂项</td>
         <td>莫队</td>
         <td><a href="./graph/Dijkstra.md">莫队</a></td>
         <td><a href="./graph/Dijkstra.cpp">莫队</a></td>
@@ -316,8 +316,13 @@
         <td><a href="./misc/Discrete.md">数组离散化</a></td>
     </tr>
     <tr>
-        <td>在线前缀最大值</td>
-        <td><a href="./misc/PrefixMax.md">在线前缀最大值</a></td>
-        <td><a href="./misc/PrefixMax.md">在线前缀最大值</a></td>
+        <td>在线前缀最值</td>
+        <td><a href="./misc/PrefixMax.md">在线前缀最值</a></td>
+        <td><a href="./misc/PrefixMax.md">在线前缀最值</a></td>
+    </tr>
+    <tr>
+        <td>数组哈希</td>
+        <td><a href="./misc/array_hash.md">数组哈希</a></td>
+        <td><a href="./misc/array_hash.md">数组哈希</a></td>
     </tr>
 </table>
