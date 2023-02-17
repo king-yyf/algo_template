@@ -214,8 +214,8 @@
     </tr>
     <tr>
         <td>带权LCA</td>
-        <td><a href="./tree/SPFA.md">带权LCA</a></td>
-        <td><a href="./tree/SPFA.cpp">带权LCA</a></td>
+        <td><a href="./tree/weighted_lca.md">带权LCA</a></td>
+        <td><a href="./tree/weighted_lca.cpp">带权LCA</a></td>
     </tr>
     <tr>
         <td>树的直径</td>
