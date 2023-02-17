@@ -5,18 +5,18 @@
 
 模板代码基于 [nealwu weighted_lca](https://github.com/nealwu/competitive-programming/blob/master/rmq_lca/rmq_lca.cc), 该模板适用于带边权的树
 
-本地sublime 代码补全提示为 `lca`
+本地sublime 代码补全提示为 `wlca`
 
 
 ```c++
 // N = 5e5时，空间约 195M，空间紧张时用 https://github.com/nealwu/competitive-programming/blob/master/rmq_lca/block_rmq_mask.cc
 template<typename T, bool maximum_mode = false>
-struct RMQ {
+struct ST {
     static int lg(unsigned x) { return x == 0 ? -1 : 31 - __builtin_clz(x);}
     int n = 0;
     vector<T> a;
     vector<vector<int>> mat;
-    RMQ(const vector<T> &A = {}) { if (!A.empty()) build(A);}
+    ST(const vector<T> &A = {}) { build(A); }
     int op(int x, int y) const {
         return (maximum_mode ? a[y] < a[x] : a[x] < a[y]) ? x : y; // when `a[x] == a[y]`, returns y.
     }
@@ -42,7 +42,7 @@ struct wLCA {
     vector<vector<pair<int,T>>> g;
     vector<int> fa, dep, siz, euler, dfn, ent, out,tour_ls, rev_tour_ls, hv_rt, hv_rt_dep, hv_rt_fa; 
     vector<T> w_dep, up_w; 
-    RMQ<int> rmq;
+    ST<int> rmq;
     bool built = false;
     wLCA(int n):n(n),g(n),fa(n, -1),dep(n),siz(n),w_dep(n),up_w(n),dfn(n),ent(n),out(n),tour_ls(n),hv_rt(n) {}
     wLCA(const vector<vector<pair<int,T>>> &G) : wLCA(int(G.size())){ g = G;}
@@ -148,10 +148,8 @@ struct wLCA {
         if (a > b) swap(a, b);
         return euler[rmq.get_idx(a, b + 1)];
     }
-
     bool is_anc(int a, int b) const { return ent[a] <= ent[b] && ent[b] < out[a];}
     bool on_path(int x, int a, int b) const {return (is_anc(x, a) || is_anc(x, b)) && is_anc(get_lca(a, b), x);}
-
     int get_dist(int a, int b) const { return dep[a] + dep[b] - 2 * dep[get_lca(a, b)];}
     T get_w_dist(int a, int b) const {
         return w_dep[a] + w_dep[b] - 2 * w_dep[get_lca(a, b)];
@@ -161,15 +159,12 @@ struct wLCA {
         int child = euler[rmq.get_idx(dfn[a], dfn[b] + 1) + 1];
         return child;
     }
-
     int get_kth_anc(int a, int k) const {
         if (k > dep[a]) return -1;
         int goal = dep[a] - k;
-        while (hv_rt_dep[a] > goal)
-            a = hv_rt_fa[a];
+        while (hv_rt_dep[a] > goal) a = hv_rt_fa[a];
         return tour_ls[ent[a] + goal - dep[a]];
     }
-
     int get_kth_node_on_path(int a, int b, int k) const {
         int anc = get_lca(a, b);
         int ls = dep[a] - dep[anc], rs = dep[b] - dep[anc];
