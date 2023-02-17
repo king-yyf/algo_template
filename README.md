@@ -209,8 +209,8 @@
     <tr>
         <td rowspan="7">树上算法</td>
         <td>最近公共祖先(LCA)</td>
-        <td><a href="./tree/Dijkstra.md">最近公共祖先(LCA)</a></td>
-        <td><a href="./tree/Dijkstra.cpp">最近公共祖先(LCA)</a></td>
+        <td><a href="./tree/lca.md">最近公共祖先(LCA)</a></td>
+        <td><a href="https://king-yyf.github.io/2022/06/lca/">最近公共祖先(LCA)</a></td>
     </tr>
     <tr>
         <td>带权LCA</td>
