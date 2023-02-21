@@ -1,73 +1,103 @@
-#include <bits/stdc++.h>
+#include<bits/stdc++.h>
 using namespace std;
-const int mod = 1e9+7;
 
-using ll = long long;
-
-struct mint{
-    int v = 0;
-    constexpr mint()  {}
-    constexpr mint(const mint &x) : v(x.v){}
-    inline constexpr operator int() const { return v; }
-    inline constexpr mint& operator+=(mint x) { v += x.v; if(v >= mod) v -= mod; return *this; }
-    inline constexpr mint& operator++() { if(v == mod - 1) v = 0; else v++; return *this; }
-    inline constexpr mint operator++(int) { mint ans(*this); operator++(); return ans; }
-    inline constexpr mint operator-() const { return mint(0) -= *this; }
-    inline constexpr mint operator-(mint x) const { return mint(*this) -= x; }
-    inline constexpr mint& operator-=(mint x) { if(v < x.v) v += mod; v -= x.v; return *this; }
-    inline constexpr mint& operator--() { if(v == 0) v = mod - 1; else v--; return *this; }
-    inline constexpr mint operator--(int) { mint ans(*this); operator--(); return ans; }
-    inline constexpr mint& operator*=(mint x) { v = ll(v) * x.v % mod; return *this; }
-    inline constexpr mint& operator/=(mint x) { return operator*=(x.inv()); }
-    template<class T> constexpr mint(T x)  {
-        using U = typename conditional<sizeof(T) >= 4, T, int>::type;
-        U y = x; y %= U(mod); if(y < 0) y += mod; v = int(y);
-    }
-    template<class T> inline constexpr mint operator+(T x) const { return mint(*this) += x; }
-    template<class T> inline constexpr mint& operator+=(T x) { return operator+=(mint(x)); }
-    template<class T> inline constexpr mint operator-(T x) const { return mint(*this) -= x; }
-    template<class T> inline constexpr mint& operator-=(T x)  { return operator-=(mint(x)); }
-    template<class T> inline constexpr mint operator*(T x) const { return mint(*this) *= x; }
-    template<class T> inline constexpr mint& operator*=(T x)  { return operator*=(mint(x)); }
-    template<class T> inline constexpr mint operator/(T x) const { return mint(*this) /= x; }
-    template<class T> inline constexpr mint& operator/=(T x) { return operator/=(mint(x)); }
-    inline constexpr mint inv() const  { ll x = 0, y = 0; exgcd(v, mod, x, y); return x; }
-    static inline constexpr ll exgcd(ll a, ll b, ll &x, ll &y) { ll g = a; x = 1; y = 0; if(b){ g = exgcd(b, a % b, y, x); y -= a / b * x; } return g; }
-    inline constexpr mint pow(ll x) const { mint ans = 1, cnt = *this; while(x){ if(x & 1) ans *= cnt; cnt *= cnt; x /= 2; } return ans; }
-    friend ostream& operator << (ostream& out, const mint& n) { return out << int(n); }
+constexpr pair<ll, ll> inv_gcd(ll a, ll b) { 
+    a %= b; if (a == 0) return {b, 0}; if (a < 0) a += b;
+    ll s = b, u = 0, v = 1;
+    while (a) { ll t = s / a; s -= a * t, u -= v * t; swap(s, a); swap(u, v);}
+    if (u < 0) u += b / s;
+    return {s, u};
+}
+template <int m, bool is_prime = true>
+struct static_mod {
+    using mint = static_mod;
+    static constexpr int mod() { return m; }
+    static_mod() : _v(0) {}
+    template <class T> static_mod(T v) {ll x = (ll)(v % (ll)(umod())); if (x < 0) x += umod(); _v = (unsigned int)(x);}
+    static_mod(unsigned int v) { _v = (unsigned int)(v % umod());}
+    unsigned int val() const { return _v; }
+    mint& operator++() { _v++; if (_v == umod()) _v = 0; return *this;}
+    mint& operator--() { if (_v == 0) _v = umod(); _v--; return *this;}
+    mint operator++(int) { mint result = *this; ++*this; return result;}
+    mint operator--(int) { mint result = *this; --*this; return result;}
+    mint& operator+=(const mint& rhs) { _v += rhs._v; if (_v >= umod()) _v -= umod();return *this;}
+    mint& operator-=(const mint& rhs) { _v -= rhs._v; if (_v >= umod()) _v += umod();return *this;}
+    mint& operator*=(const mint& rhs) { unsigned long long z = _v; z *= rhs._v; _v = (unsigned int)(z % umod()); return *this;}
+    mint& operator/=(const mint& rhs) { return *this = *this * rhs.inv(); }
+    mint operator+() const { return *this; }
+    mint operator-() const { return mint() - *this; }
+    mint pow(ll n) const {mint x = *this, r = 1; while (n) { if (n & 1) r *= x; x *= x;n >>= 1;} return r;}
+    mint inv() const { if(is_prime) {assert(_v);return pow(umod() - 2);} return inv_gcd(_v, m).second;}
+    friend mint operator+(const mint& lhs, const mint& rhs) { return mint(lhs) += rhs;}
+    friend mint operator-(const mint& lhs, const mint& rhs) { return mint(lhs) -= rhs;}
+    friend mint operator*(const mint& lhs, const mint& rhs) { return mint(lhs) *= rhs;}
+    friend mint operator/(const mint& lhs, const mint& rhs) { return mint(lhs) /= rhs;}
+    friend bool operator==(const mint& lhs, const mint& rhs) { return lhs._v == rhs._v;}
+    friend bool operator!=(const mint& lhs, const mint& rhs) { return lhs._v != rhs._v;}
+    friend ostream& operator << (ostream& out, const mint& n) { return out << n.val(); }
     friend istream& operator >> (istream& in, mint& n) { ll x; in >> x; n = mint(x); return in; }
+private:
+    unsigned int _v;
+    static constexpr unsigned int umod() { return m; }
 };
-vector<mint> fac(1, 1), inv(1, 1);
-void reserve(int a){
-    if(fac.size() >= a) return;
-    if(a < fac.size() * 2) a = fac.size() * 2;
-    if(a >= mod) a = mod;
-    while(fac.size() < a) fac.push_back(fac.back() * mint(fac.size()));
-    inv.resize(fac.size());
-    inv.back() = fac.back().inv();
-    for(int i = inv.size() - 1; !inv[i - 1]; i--) inv[i - 1] = inv[i] * i;
-}
-mint fact(int n){ if(n < 0) return 0; reserve(n + 1); return fac[n]; }
-mint perm(int n, int r){
-    if(r < 0 || n < r) return 0;
-    if(n >> 24){ mint ans = 1; for(int i = 0; i < r; i++) ans *= n--; return ans; }
-    reserve(n + 1); return fac[n] * inv[n - r];
-}
-mint comb(int n, int r){ if(r < 0 || n < r) return 0; reserve(r + 1); return perm(n, r) * inv[r]; }
-mint Mcomb(int n, int r){ return comb(n + r - 1, n - 1); } // r个相同物品放到n个篮子方案数
-mint catalan(int n){ reserve(n * 2 + 1); return fac[n * 2] * inv[n] * inv[n + 1]; }
+using mint = static_mod<998244353>; // 1000000007
+
+using ull = unsigned long long;
+struct barrett {
+    unsigned int _m;
+    ull im;
+    explicit barrett(unsigned int m) : _m(m), im((ull)(-1) / m + 1) {} // 1 <= m < 2^31
+    unsigned int umod() const { return _m; }
+    unsigned int mul(unsigned int a, unsigned int b) const { // 0 <= a, b < m, return a * b % m
+        ull z = a; z *= b;
+        ull x = (ull)(((unsigned __int128)(z)*im) >> 64);
+        unsigned int v = (unsigned int)(z - x * _m);
+        if (_m <= v) v += _m;
+        return v;
+    }
+};
+template <int id> struct dynamic_mod {
+    using mint = dynamic_mod;
+    static int mod() { return (int)(bt.umod()); }
+    static void set_mod(int m) { assert(1 <= m); bt = barrett(m);}
+    static mint raw(int v) { mint x; x._v = v; return x;}
+    dynamic_mod() : _v(0) {}
+    template <class T>
+    dynamic_mod(T v) { ll x = (ll)(v % (ll)(mod())); if (x < 0) x += mod(); _v = (unsigned int)(x);}
+    dynamic_mod(unsigned int v) { _v = (unsigned int)(v % mod());}
+    unsigned int val() const { return _v; }
+    mint& operator++() { _v++; if (_v == umod()) _v = 0; return *this;}
+    mint& operator--() { if (_v == 0) _v = umod(); _v--; return *this;}
+    mint operator++(int) { mint result = *this; ++*this; return result;}
+    mint operator--(int) { mint result = *this; --*this; return result;}
+    mint& operator+=(const mint& rhs) { _v += rhs._v; if (_v >= umod()) _v -= umod(); return *this;}
+    mint& operator-=(const mint& rhs) { _v += mod() - rhs._v; if (_v >= umod()) _v -= umod(); return *this;}
+    mint& operator*=(const mint& rhs) { _v = bt.mul(_v, rhs._v); return *this;}
+    mint& operator/=(const mint& rhs) { return *this = *this * rhs.inv(); }
+    mint operator+() const { return *this; }
+    mint operator-() const { return mint() - *this; }
+    mint pow(ll n) const { assert(0 <= n); mint x = *this, r = 1; while (n) { if (n & 1) r *= x; x *= x; n >>= 1;}return r;}
+    mint inv() const { return inv_gcd(_v, mod()).second; }
+    friend mint operator+(const mint& lhs, const mint& rhs) { return mint(lhs) += rhs;}
+    friend mint operator-(const mint& lhs, const mint& rhs) { return mint(lhs) -= rhs;}
+    friend mint operator*(const mint& lhs, const mint& rhs) { return mint(lhs) *= rhs;}
+    friend mint operator/(const mint& lhs, const mint& rhs) { return mint(lhs) /= rhs;}
+    friend bool operator==(const mint& lhs, const mint& rhs) { return lhs._v == rhs._v;}
+    friend bool operator!=(const mint& lhs, const mint& rhs) { return lhs._v != rhs._v;}
+private:
+    unsigned int _v;
+    static barrett bt;
+    static unsigned int umod() { return bt.umod(); }
+};
+template <int id> barrett dynamic_mod<id>::bt(998244353);
+
+using mint = static_mod<998244353>; // 1000000007
+using modint = dynamic_mod<-1>;
 
 int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-
     mint x;
-    int y;
-    cin >> x >> y;
-    
-    x = x + y;
-    cout << x << ", " << y << "\n";
-
-    cout << x.pow(5) << "\n";
-    return 0;
+    int y = 10;
+    cin >> x;
+    x += y;
+    cout << x << ", " << x.pow(12222) << "\n";
 }

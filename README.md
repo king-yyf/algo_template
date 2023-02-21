@@ -8,7 +8,7 @@
         <th>示例代码或博客</th>
     </tr>
     <tr>
-        <td rowspan="9">数据结构</td>
+        <td rowspan="11">数据结构</td>
         <td>一维树状数组</td>
         <td><a href="./data_structure/FenwickTree.md">FenwickTree</a></td>
         <td><a href="./data_structure/FenwickTree.cpp">FenwickTree.cpp</a></td>
@@ -52,6 +52,16 @@
         <td>01字典树/可持久化01字典树</td>
         <td><a href="./data_structure/XORTrie.md">01字典树</a></td>
         <td><a href="https://king-yyf.github.io/2021/04/xor_trie/">异或与字典树</a></td>
+    </tr>
+    <tr>
+        <td>最大最小堆</td>
+        <td><a href="./data_structure/MinMaxHeap.md">最大最小堆</a></td>
+        <td><a href="./data_structure/MinMaxHeap.md">最大最小堆</a></td>
+    </tr>
+     <tr>
+        <td>斜堆</td>
+        <td><a href="./data_structure/skewHeap.md">斜堆</a></td>
+        <td><a href="./data_structure/skewHeap.md">斜堆</a></td>
     </tr>
     <tr>
         <td rowspan="9">字符串</td>
@@ -177,9 +187,9 @@
         <td><a href="./math/modint.cpp">modint</a></td>
     </tr>
     <tr>
-        <td>质数</td>
-        <td><a href="./graph/SPFA.md">质数</a></td>
-        <td><a href="./graph/SPFA.cpp">质数</a></td>
+        <td>数论</td>
+        <td><a href="./math/math.md">数论</a></td>
+        <td><a href="./math/math.md">数论</a></td>
     </tr>
     <tr>
         <td>矩阵快速幂</td>
