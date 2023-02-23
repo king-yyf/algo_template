@@ -8,7 +8,7 @@
         <th>示例代码或博客</th>
     </tr>
     <tr>
-        <td rowspan="11">数据结构</td>
+        <td rowspan="12">数据结构</td>
         <td>一维树状数组</td>
         <td><a href="./data_structure/FenwickTree.md">FenwickTree</a></td>
         <td><a href="./data_structure/FenwickTree.cpp">FenwickTree.cpp</a></td>
@@ -62,6 +62,11 @@
         <td>斜堆</td>
         <td><a href="./data_structure/skewHeap.md">斜堆</a></td>
         <td><a href="./data_structure/skewHeap.md">斜堆</a></td>
+    </tr>
+     <tr>
+        <td>小波矩阵</td>
+        <td><a href="./data_structure/WaveletMat.md">小波矩阵</a></td>
+        <td><a href="./data_structure/WaveletMat.md">小波矩阵</a></td>
     </tr>
     <tr>
         <td rowspan="9">字符串</td>
@@ -310,7 +315,7 @@
         <td><a href="./base_algo/interval.cpp">维护区间(交/并)</a></td>
     </tr>
     <tr>
-        <td rowspan="5">杂项</td>
+        <td rowspan="6">杂项</td>
         <td>莫队</td>
         <td><a href="./graph/Dijkstra.md">莫队</a></td>
         <td><a href="./graph/Dijkstra.cpp">莫队</a></td>
@@ -334,5 +339,10 @@
         <td>数组哈希</td>
         <td><a href="./misc/array_hash.md">数组哈希</a></td>
         <td><a href="./misc/array_hash.md">数组哈希</a></td>
+    </tr>
+     <tr>
+        <td>动态mex</td>
+        <td><a href="./misc/set_mex.md">动态mex</a></td>
+        <td><a href="./misc/set_mex.md">动态mex</a></td>
     </tr>
 </table>
