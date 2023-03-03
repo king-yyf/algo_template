@@ -254,8 +254,8 @@
     </tr>
      <tr>
         <td>树哈希</td>
-        <td><a href="./tree/SPFA.md">树哈希</a></td>
-        <td><a href="./tree/SPFA.cpp">树哈希</a></td>
+        <td><a href="./tree/treehash.md">树哈希</a></td>
+        <td><a href="https://king-yyf.github.io/2023/03/treehash/">树哈希</a></td>
     </tr>
      <tr>
         <td rowspan="4">位运算</td>
