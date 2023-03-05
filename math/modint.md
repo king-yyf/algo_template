@@ -6,12 +6,11 @@
 ### 模板代码
 
 ```c++
-constexpr pair<ll, ll> inv_gcd(ll a, ll b) { 
-    a %= b; if (a == 0) return {b, 0}; if (a < 0) a += b;
-    ll s = b, u = 0, v = 1;
-    while (a) { ll t = s / a; s -= a * t, u -= v * t; swap(s, a); swap(u, v);}
-    if (u < 0) u += b / s;
-    return {s, u};
+ll inverse(ll a, ll m) { 
+    a %= m; if (a == 0) return 0; if (a < 0) a += m;
+    ll u = 0, v = 1;
+    while (a) { ll t = m / a;  m -= t * a; swap(a, m); u -= t * v; swap(u, v); }
+    return u;
 }
 template <int m, bool is_prime = true>
 struct static_mod {
@@ -32,7 +31,7 @@ struct static_mod {
     mint operator+() const { return *this; }
     mint operator-() const { return mint() - *this; }
     mint pow(ll n) const {mint x = *this, r = 1; while (n) { if (n & 1) r *= x; x *= x;n >>= 1;} return r;}
-    mint inv() const { if(is_prime) {assert(_v);return pow(umod() - 2);} return inv_gcd(_v, m).second;}
+    mint inv() const { if(is_prime) {assert(_v);return pow(umod() - 2);} return inverse(_v, m);}
     friend mint operator+(const mint& lhs, const mint& rhs) { return mint(lhs) += rhs;}
     friend mint operator-(const mint& lhs, const mint& rhs) { return mint(lhs) -= rhs;}
     friend mint operator*(const mint& lhs, const mint& rhs) { return mint(lhs) *= rhs;}
@@ -100,12 +99,11 @@ mint ans = x.pow(5);
 
 ```c++
 using ull = unsigned long long;
-constexpr pair<ll, ll> inv_gcd(ll a, ll b) { 
-    a %= b; if (a == 0) return {b, 0}; if (a < 0) a += b;
-    ll s = b, u = 0, v = 1;
-    while (a) { ll t = s / a; s -= a * t, u -= v * t; swap(s, a); swap(u, v);}
-    if (u < 0) u += b / s;
-    return {s, u};
+ll inverse(ll a, ll m) { 
+    a %= m; if (a == 0) return 0; if (a < 0) a += m;
+    ll u = 0, v = 1;
+    while (a) { ll t = m / a;  m -= t * a; swap(a, m); u -= t * v; swap(u, v); }
+    return u;
 }
 struct barrett {
     unsigned int _m;
@@ -141,7 +139,7 @@ template <int id> struct dynamic_mod {
     mint operator+() const { return *this; }
     mint operator-() const { return mint() - *this; }
     mint pow(ll n) const { assert(0 <= n); mint x = *this, r = 1; while (n) { if (n & 1) r *= x; x *= x; n >>= 1;}return r;}
-    mint inv() const { return inv_gcd(_v, mod()).second; }
+    mint inv() const { return inverse(_v, mod()); }
     friend mint operator+(const mint& lhs, const mint& rhs) { return mint(lhs) += rhs;}
     friend mint operator-(const mint& lhs, const mint& rhs) { return mint(lhs) -= rhs;}
     friend mint operator*(const mint& lhs, const mint& rhs) { return mint(lhs) *= rhs;}

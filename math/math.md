@@ -369,6 +369,7 @@ struct Comb {
         for(int i = inv.size() - 1; inv[i - 1] == 0; i--) inv[i - 1] = inv[i] * i;
     }
     mint fact(int n){ if(n < 0) return 0; reserve(n + 1); return fac[n]; }
+    mint invfac(int n) {if(n < 0) return 0; reserve(n + 1); return inv[n]; }
     mint P(int n, int r){ // 排列数
         if(r < 0 || n < r) return 0;
         if(n >> 24){ mint ans = 1; for(int i = 0; i < r; i++) ans *= n--; return ans; }
@@ -419,10 +420,6 @@ struct Comb {
             }
         }
         return s2[n][m];
-    }
-    mint lucas(long long a, long long b, int p) { // 大组合数，p为质数
-        if (a < p && b < p) return C(a, b);
-        return C(a % p, b % p) * lucas(a / p, b / p);
     }
 } comb;
 ```
