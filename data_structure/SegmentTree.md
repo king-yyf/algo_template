@@ -200,7 +200,7 @@ S seg.get_all()
 (2) int seg.min_left<F>(int r, F f)
 ```
 
-1. 需要定义 bool f(S x) 函数，max_right函数在线段树上执行二分查找
+1. 需要定义 bool f(S x) 函数，min_left 函数在线段树上执行二分查找
 2. 应该定义以S为参数并返回bool的函数对象。
 
 函数返回一个下标 l， 满足下面两个条件
