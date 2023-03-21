@@ -74,13 +74,16 @@ struct HLD {
     }
     int lca(int u, int v) {
         while (top[u] != top[v]) {
-            if (dep[top[u]] > dep[top[v]]) {
-                u = fa[top[u]];
-            } else {
-                v = fa[top[v]];
-            }
+            if (dep[top[u]] > dep[top[v]]) u = fa[top[u]];
+            else v = fa[top[v]];
         }
         return dep[u] < dep[v] ? u : v;
+    }
+    int dist(int u, int v) {
+        return dep[u] + dep[v] - 2 * dep[lca(u, v)];
+    }
+    bool is_anc(int u, int v) {
+        return in[u] <= in[v] && in[v] < out[u];
     }
     template<typename F> 
     void path(int u, int v, F &&f) { // 处理从u到v的路径
