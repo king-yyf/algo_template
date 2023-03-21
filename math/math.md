@@ -13,7 +13,9 @@ Index
   - [线性素数筛](#线性素数筛)
   - [素数原根](#素数原根)
   - [统计n以内的素数个数](#统计n以内的素数个数)
+  - [5e8量级素数筛](#5e8量级素数筛)
 - [分解质因数](#分解质因数)
+- [1e18量级质因数分解](#1e18量级质因数分解)
 - [64位整数相乘](#64位整数相乘)
 - [欧拉函数](#欧拉函数)
   - [求x的欧拉函数](#求x的欧拉函数)
@@ -188,6 +190,103 @@ long long prime_counting(long long n) {
 }
 ```
 
+### 5e8量级素数筛
+
+[Enum primes](https://judge.yosupo.jp/problem/enumerate_primes)
+
+输入N, A, B, 求1-N内质数个数，同时输出 p[B], p[B + A], ..., p[B + kA], p[B + kA] <= N.
+
++ 1 <= N <= 5e8
++ 0 <= B < A <= N
++ 保证输出质数的数量不超过1e6
+
+```c++
+vector<int> prime_sieve(const int N, const int Q = 17, const int L = 1<<15) {
+    using u8 = unsigned char;
+    constexpr int rs[] = {1, 7, 11, 13, 17, 19, 23, 29};
+    struct P { 
+        P(int p) : p(p) {}
+        int p; int pos[8];
+    };
+    auto approx_prime_count = [] (const int N) -> int {
+        return N > 60184 ? N / (log(N) - 1.1) : max(1., N / (log(N) - 1.11)) + 1;
+    };
+    const int v = sqrt(N), vv = sqrt(v);
+    vector<bool> isp(v + 1, true);
+    for (int i = 2; i <= vv; ++i) if (isp[i]) {
+        for (int j = i * i; j <= v; j += i) isp[j] = false;
+    }
+
+    const int rsize = approx_prime_count(N + 30), M = (N + 29) / 30;;
+    vector<int> primes = {2, 3, 5}; 
+    primes.reserve(rsize);
+
+    vector<P> sprimes; size_t pbeg = 0;
+    int prod = 1; 
+    for (int p = 7; p <= v; ++p) {
+        if (!isp[p]) continue;
+        if (p <= Q) prod *= p, ++pbeg, primes.push_back(p);
+        auto pp = P(p); 
+        for (int t = 0; t < 8; ++t) {
+            int j = (p <= Q) ? p : p * p;
+            while (j % 30 != rs[t]) j += p << 1;
+            pp.pos[t] = j / 30;
+        }
+        sprimes.push_back(pp);
+    }
+
+    vector<u8> pre(prod, 0xFF);
+    for (size_t pi = 0; pi < pbeg; ++pi) {
+        auto pp = sprimes[pi]; const int p = pp.p;
+        for (int t = 0; t < 8; ++t) {
+            const u8 m = ~(1 << t);
+            for (int i = pp.pos[t]; i < prod; i += p) pre[i] &= m;
+        }
+    }
+
+    const int block_size = (L + prod - 1) / prod * prod;
+    vector<u8> block(block_size); u8* pblock = block.data();
+
+    for (int beg = 0; beg < M; beg += block_size, pblock -= block_size) {
+        int end = min(M, beg + block_size);
+        for (int i = beg; i < end; i += prod) 
+            copy(pre.begin(), pre.end(), pblock + i);
+        if (beg == 0) pblock[0] &= 0xFE;
+        for (size_t pi = pbeg; pi < sprimes.size(); ++pi) {
+            auto& pp = sprimes[pi];
+            const int p = pp.p;
+            for (int t = 0; t < 8; ++t) {
+                int i = pp.pos[t]; 
+                const u8 m = ~(1 << t);
+                for (; i < end; i += p) pblock[i] &= m;
+                pp.pos[t] = i;
+            }
+        }
+        for (int i = beg; i < end; ++i) {
+            for (int m = pblock[i]; m > 0; m &= m - 1) 
+                primes.push_back(i * 30 + rs[__builtin_ctz(m)]);
+        }
+    }
+    while (primes.size() && primes.back() > N) primes.pop_back();
+    return primes;
+}
+
+int main() {
+    ios::sync_with_stdio(false); cin.tie(nullptr);
+    int n, a, b;
+    cin >> n >> a >> b;
+    auto primes = prime_sieve(n);
+    int c = primes.size(), m = (c - b + a - 1) / a;
+    cout << c << ' ' << m << '\n';
+    for (int i = b; i < c; i += a) {
+        cout << primes[i] << " \n"[i + a >= c];
+    } 
+    
+    return 0;
+}
+```
+
+
 ## 分解质因数
 
 ```c++
@@ -206,6 +305,142 @@ vector<pair<int,int>> getDivisors(int x) {
 }
 ```
 
+### 1e18量级质因数分解
+
+[factorize](https://judge.yosupo.jp/problem/factorize)
+
+q个查询，每个查询，输入a，输出a的质因数个数及a的所有质因数。
+例如：输入 8， 输出 `3 2 2 2`, 3个质因数，分别为 `2 2 2`.
+
++ 1 <= a <= 1e18
+
+```c++
+namespace fast_factorize {
+  struct m64 {
+    using i64 = int64_t;
+    using u64 = uint64_t;
+    using u128 = __uint128_t;
+    inline static u64 m, r, n2; // r * m = -1 (mod 1<<64), n2 = 1<<128 (mod m)
+    static void set_mod(u64 m) {
+        assert(m < (1ull << 62));
+        assert((m & 1) == 1);
+        m64::m = m; n2 = -u128(m) % m; r = m;
+        for (int _ = 0; _ < 5; ++ _) r *= 2 - m*r;
+        r = -r;
+        assert(r * m == -1ull);
+    }
+    static u64 reduce(u128 b) { return (b + u128(u64(b) * r) * m) >> 64; }
+    u64 x;
+    m64() : x(0) {}
+    m64(u64 x) : x(reduce(u128(x) * n2)){};
+    u64 val() const { u64 y = reduce(x); return y >= m ? y-m : y; }
+    m64 &operator+=(m64 y) { x += y.x - (m << 1); x = (i64(x) < 0 ? x + (m << 1) : x);return *this; }
+    m64 &operator-=(m64 y) {x -= y.x;x = (i64(x) < 0 ? x + (m << 1) : x);return *this;}
+    m64 &operator*=(m64 y) { x = reduce(u128(x) * y.x); return *this; }
+    m64 operator+(m64 y) const { return m64(*this) += y; }
+    m64 operator-(m64 y) const { return m64(*this) -= y; }
+    m64 operator*(m64 y) const { return m64(*this) *= y; }
+    bool operator==(m64 y) const { return (x >= m ? x-m : x) == (y.x >= m ? y.x-m : y.x); }
+    bool operator!=(m64 y) const { return not operator==(y); }
+    m64 pow(u64 n) const {
+        m64 y = 1, z = *this;
+        for ( ; n; n >>= 1, z *= z) if (n & 1) y *= z;
+        return y;
+    }
+  };
+  constexpr int lg(int x) {return x == 0 ? -1 : 31 - __builtin_clz(x);}  
+  mt19937_64 rng_mt{random_device{}()};
+  ll rnd(ll n) { return uniform_int_distribution<ll>(0, n - 1)(rng_mt); }
+  bool primetest(const uint64_t x) {
+      using u64 = uint64_t;
+      if (x == 2 or x == 3 or x == 5 or x == 7) return true;
+      if (x % 2 == 0 or x % 3 == 0 or x % 5 == 0 or x % 7 == 0) return false;
+      if (x < 121) return x > 1;
+      const u64 d = (x-1) >> __builtin_ctzll(x-1);
+      m64::set_mod(x);
+      const m64 one(1), minus_one(x-1);
+      auto ok = [&](u64 a) {
+          auto y = m64(a).pow(d);
+          u64 t = d;
+          while (y != one and y != minus_one and t != x-1) y *= y, t <<= 1;
+          if (y != minus_one and t % 2 == 0) return false;
+          return true;
+      };
+      if (x < (1ull << 32)) {
+          for (u64 a : { 2, 7, 61 }) if (not ok(a)) return false;
+      } else {
+          for (u64 a : { 2, 325, 9375, 28178, 450775, 9780504, 1795265022 }) {
+              if (x <= a) return true;
+              if (not ok(a)) return false;
+          }
+      }
+      return true;
+  }
+  ll rho(ll n, ll c) {
+    m64::set_mod(n);
+    assert(n > 1);
+    const m64 cc(c);
+    auto f = [&](m64 x) { return x * x + cc; };
+    m64 x = 1, y = 2, z = 1, q = 1;
+    ll g = 1;
+    const ll m = 1LL << (lg(n) / 5); // ?
+    for (ll r = 1; g == 1; r <<= 1) {
+      x = y;
+      for (int _ = 0; _ < r; ++ _) y = f(y);
+      for (ll k = 0; k < r and g == 1; k += m) {
+        z = y;
+        for (int _ = 0, t = min(m, r - k); _ < t; ++ _)
+          y = f(y), q *= x - y;
+        g = gcd(q.val(), n);
+      }
+    }
+    if (g == n)
+      do {
+        z = f(z);
+        g = gcd((x - z).val(), n);
+      } while (g == 1);
+    return g;
+  }
+  ll find_prime_factor(ll n) {
+    assert(n > 1);
+    if (primetest(n)) return n;
+    for (int _ = 0; _ < 100; ++ _) {
+      ll m = rho(n, rnd(n));
+      if (primetest(m)) return m;
+      n = m;
+    }
+    cerr << "failed" << endl;
+    assert(false);
+    return -1;
+  }
+  vector<pair<ll, int>> factor(ll n) {
+    assert(n >= 1);
+    vector<pair<ll, int>> pf;
+    for (int p = 2; p < 100; ++ p) {
+      if (p * p > n) break;
+      if (n % p == 0) {
+        int e = 0;
+        do {
+          n /= p, e += 1;
+        } while (n % p == 0);
+        pf.emplace_back(p, e);
+      }
+    }
+    while (n > 1) {
+      ll p = find_prime_factor(n);
+      int e = 0;
+      do {
+        n /= p, e += 1;
+      } while (n % p == 0);
+      pf.emplace_back(p, e);
+    }
+    sort(pf.begin(), pf.end());
+    return pf;
+  }
+} // namespace fast_factorize
+
+// auto p =  fast_factorize::factor(x);
+```
 
 ## 64位整数相乘
 
