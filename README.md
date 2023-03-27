@@ -8,7 +8,7 @@
         <th>示例代码或博客</th>
     </tr>
     <tr>
-        <td rowspan="12">数据结构</td>
+        <td rowspan="13">数据结构</td>
         <td>一维树状数组</td>
         <td><a href="./data_structure/FenwickTree.md">FenwickTree</a></td>
         <td><a href="./data_structure/FenwickTree.cpp">FenwickTree.cpp</a></td>
@@ -67,6 +67,11 @@
         <td>小波矩阵</td>
         <td><a href="./data_structure/WaveletMat.md">小波矩阵</a></td>
         <td><a href="./data_structure/WaveletMat.md">小波矩阵</a></td>
+    </tr>
+    <tr>
+        <td>segment-tree-beats</td>
+        <td><a href="./data_structure/segTreeBeats.md">segment-tree-beats</a></td>
+        <td><a href="./data_structure/segTreeBeats.md">segment-tree-beats</a></td>
     </tr>
     <tr>
         <td rowspan="9">字符串</td>
