@@ -21,6 +21,8 @@ Index
   - [求x的欧拉函数](#求x的欧拉函数)
   - [筛法求欧拉函数](#筛法求欧拉函数)
 - [约数个数和约数之和](#约数个数和约数之和)
+  - [前n个数的约数总和](#前n个数的约数总和)
+  - [至少被一个质数整除的数量](#至少被一个质数整除的数量)
 - [筛法求约数个数](#筛法求约数个数)
 - [筛法求约数和](#筛法求约数和)
 - [筛法求莫比乌斯函数](#筛法求莫比乌斯函数)
@@ -512,6 +514,114 @@ void sieve_eulers(int n) { // 筛法求欧拉函数
 如果 N = p1^c1 * p2^c2 * ... *pk^ck
 约数个数： (c1 + 1) * (c2 + 1) * ... * (ck + 1)
 约数之和： (p1^0 + p1^1 + ... + p1^c1) * ... * (pk^0 + pk^1 + ... + pk^ck)
+```
+
++ input: n的质因数分解结果数组a,每个`pair<x,k>` x表示质因数，k为质因数系数， 
++  a.size() <= 1e5, 2 <= x <= 1e6, 1 <= k <= 1e9
++ output: `array<int,3> ans`, 分别表示 n的约数个数，约数之和，约数之积。
+
+```c++
+long long  qpow(long long m, long long k, long long p) {
+    long long res = 1 % p, t = m;
+    while (k) {
+        if (k&1) res = res * t % p;
+        t = t * t % p;
+        k >>= 1;
+    }
+    return res;
+}
+
+array<int, 3> divisor_cnt_sum_pro(vector<pair<int, int>> &a, int mod) {
+    array<int, 3> c{1, 1, 1};
+    int sq = 1, num = 1, d = 1, flag = 0;
+    for (auto &[x, y] : a) {
+        c[0] = (c[0] * (y + 1ll)) % mod;
+        int gmum = (qpow(x, y + 1, mod) + mod - 1) * qpow(x - 1, mod - 2, mod) % mod;
+        c[1] = c[1] * 1ll * gmum % mod;
+        sq = sq * 1ll * qpow(x, y / 2, mod) % mod;
+        num = num * 1ll * qpow(x, y, mod) % mod;
+        if ((y & 1) && flag == 0) {
+            d = d * ((y + 1ll) / 2) % (mod - 1);
+            flag = 1;
+        } else d = d * (y + 1ll) % (mod - 1);
+    }
+    c[2] = flag ?  qpow(num, d, mod) : qpow(sq, d, mod);
+    return c;
+}
+```
+
+### 前n个数的约数总和
+
+[cses 1082](https://vjudge.net/problem/CSES-1082)
+
+f(n)表示n的所有约数之和，例如 `f(12) = 1+2+3+4+6+12=28`。求 `f(1)+f(2)+...+f(n)`
+
++ 1 <= n <= 1e12
+
+```c++
+long long  qpow(long long m, long long k, long long p) {
+    long long res = 1 % p, t = m;
+    while (k) {
+        if (k&1) res = res * t % p;
+        t = t * t % p;
+        k >>= 1;
+    }
+    return res;
+}
+
+long long sum_dovisors(long long n, int p) {
+    long long ans = 0, z = qpow(2, p - 2, p);
+    auto calc =  [&](long long l, long long r, long long mul) -> long long  {
+        long long res = ((r * (r + 1) - l * (l + 1)) % p + p) % p;
+        res = (res * z) % p;
+        return res * mul;
+    };
+    for (int  i = 1; i * 1ll * i <= n; ++i) {
+        long long r = n / i, l = n / (i + 1);
+        ans = (ans + calc(l % p, r % p, i)) % p;
+        if (i != n / i) {
+            ans = (ans + (n / i) * i) % p;
+        }
+    }
+    return ans;
+}
+//long long ans = sum_dovisors(n, mod);
+```
+
+### 至少被一个质数整除的数量
+
+数组a，包含k个互不相同的质数，给定n，求不超过n的数中，至少被a中一个质数整除的数目。
+
++ 1 <= n <= 1e18
++ 1 <= k <= 20
++ 2 <= a[i] <= n
+
+```c++
+int main() {
+    ios::sync_with_stdio(false); cin.tie(nullptr);
+    
+    long long n, k;
+    cin >> n >> k;
+    vector<long long> a(k);
+    for (int i = 0; i < k; ++i) {
+        cin >> a[i];    
+    }
+    long long ans = 0;
+    function<void(int, long long, bool)> dfs = [&](int p, long long s, bool odd) {
+        if (p >= k) {
+            if (s == 1) return;
+            if (!odd) ans -= n / s;
+            else ans += n / s;
+            return;
+        }
+        dfs(p + 1, s, odd);
+
+        if (a[p] <= n / s) dfs(p + 1, s * a[p], odd ^ 1);
+    };
+    dfs(0, 1, 0);
+    cout << ans << '\n';
+    return 0;
+}
 ```
 
 ## 筛法求约数个数
