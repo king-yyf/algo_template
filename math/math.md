@@ -6,32 +6,298 @@
 Index
 ---
 <!-- TOC -->
-- 
+
+- [线性筛](#线性筛)
+  - [筛法求N以内所有质数](#筛法求N以内所有质数)
+  - [筛法求欧拉函数](#筛法求欧拉函数)
+  - [筛法求约数个数](#筛法求约数个数)
+  - [筛法求约数和](#筛法求约数和)
+  - [筛法求莫比乌斯函数](#筛法求莫比乌斯函数)
 - [素数](#素数)
   - [素数判定](#素数判定)
   - [埃氏筛素数](#埃氏筛素数)
-  - [线性素数筛](#线性素数筛)
   - [素数原根](#素数原根)
   - [统计n以内的素数个数](#统计n以内的素数个数)
   - [5e8量级素数筛](#5e8量级素数筛)
 - [分解质因数](#分解质因数)
 - [1e18量级质因数分解](#1e18量级质因数分解)
 - [64位整数相乘](#64位整数相乘)
-- [欧拉函数](#欧拉函数)
-  - [求x的欧拉函数](#求x的欧拉函数)
-  - [筛法求欧拉函数](#筛法求欧拉函数)
+- [求x的欧拉函数](#求x的欧拉函数)
 - [约数个数和约数之和](#约数个数和约数之和)
   - [前n个数的约数总和](#前n个数的约数总和)
   - [至少被一个质数整除的数量](#至少被一个质数整除的数量)
-- [筛法求约数个数](#筛法求约数个数)
-- [筛法求约数和](#筛法求约数和)
-- [筛法求莫比乌斯函数](#筛法求莫比乌斯函数)
 - [裴蜀定理与扩展欧几里德](#裴蜀定理与扩展欧几里德)
 - [中国剩余定理](#中国剩余定理)
 - [组合数](#组合数)
 
 
 <!-- /TOC -->
+
+
+## 线性筛
+
+```c++
+struct Sieve {
+    vector<int> min_fact, primes;
+    int N;
+    Sieve(int n): N(n), min_fact(n + 1) {
+        for (int d = 2; d <= N; d++) {
+            if (!min_fact[d]) {
+                min_fact[d] = d;
+                primes.push_back(d);
+            }
+            for (const auto &p : primes) {
+                if (p > min_fact[d] or d * 1ll * p > N) break;
+                min_fact[d * p] = p;
+            }
+        }
+    }
+    bool is_prime(int x) {
+        if (x < N + 1) return min_fact[x] == x;
+        assert(N * 1ll * N >= x);
+        for (const auto &p : primes) if (x % p == 0) return false;
+        return true;
+    }
+    template <class T> map<T, int> factorize(T x) const {
+        map<T, int> ret;
+        for (const auto &p : primes) {
+            if (x < T(N + 1)) break;
+            while (!(x % p)) x /= p, ret[p]++;
+        }
+        if (x >= T(N + 1)) ret[x]++, x = 1;
+        while (x > 1) ret[min_fact[x]]++, x /= min_fact[x];
+        return ret;
+    }
+    template <class T> vector<T> divisors(T x) const {
+        vector<T> ret{1};
+        for (const auto p : factorize(x)) {
+            int n = ret.size();
+            for (int i = 0; i < n; i++) {
+                for (T a = 1, d = 1; d <= p.second; d++) {
+                    a *= p.first;
+                    ret.push_back(ret[i] * a);
+                }
+            }
+        }
+        // sort(ret.begin(), ret.end()); // if need sort
+        return ret; 
+    }
+    template <class T> map<T, T> euler_of_divisors(T x) const {
+        assert(x >= 1);
+        map<T, T> ret; ret[1] = 1;
+        vector<T> divs{1};
+        for (auto p : factorize(x)) {
+            int n = ret.size();
+            for (int i = 0; i < n; i++) {
+                ret[divs[i] * p.first] = ret[divs[i]] * (p.first - 1);
+                divs.push_back(divs[i] * p.first);
+                for (T a = divs[i] * p.first, d = 1; d < p.second; a *= p.first, d++) {
+                    ret[a * p.first] = ret[a] * p.first;
+                    divs.push_back(a * p.first);
+                }
+            }
+        }
+        return ret;
+    }
+    vector<int> moebius_table() const {
+        vector<int> ret(N + 1);
+        for (unsigned i = 1; i <= N; i++) {
+            if (i == 1) ret[i] = 1;
+            else if ((i / min_fact[i]) % min_fact[i] == 0) ret[i] = 0;
+            else ret[i] = -ret[i / min_fact[i]];
+        }
+        return ret;
+    }
+};
+```
+
+1. 定义线性筛
+
+```c++
+Sieve seive(100000); // 筛100000以内的质数
+```
+
+时间复杂度 O(N), 空间复杂度 O(N).
+min_fact: 存每个数的最小质因子, primes 存所有质数
+
+2. 判断整数x是否是质数
+
+设 seive的最大值为N，需要满足 N * N >= x， 当x <= N 时，时间复杂度为O(1), x > N 时，时间复杂度 为N以内素数的个数。
+
+```c++
+seive.is_prime(x);
+```
+
+3. 质因数分解
+
+需要满足 1 <= x <= N * N, x <= N 时，时间复杂度 O(log(n)), x > N 时，时间复杂度 O(N/log(N))
+
+返回一个map: (质因数，质因数系数)
+
+```c++
+auto mp = seive.factorize(x);
+```
+
+4. 求x的所有约数
+
+需要满足 1 <= x <= N * N, 返回的结果是无序的，如果需要排序，打开注释的sort的代码
+
+```c++
+auto a = seive.divisors(x);
+```
+
+5. x所有约数的欧拉函数
+
+返回一个map (约数，约数的欧拉函数值)
+
+```c++
+auto mp = seive.euler_of_divisors(x);
+```
+
+6. 莫比乌斯函数表
+
+返回和 min_fact大小相同的莫比乌斯函数表。
+
+```c++
+auto mu = seive.moebius_table();
+```
+
+### 筛法求N以内所有质数
+
+```c++
+const int MXN = 1e5 + 5;
+int primes[MXN], prime_cnt; 
+bool st[MXN];
+void sieve(int n) {  // 筛小于等于n的所有素数 MXN 要大于n
+    for (int i = 2; i <= n; ++i) {
+        if (!st[i]) primes[prime_cnt++] = i;
+        for (int j = 0; primes[j] * 1ll * i <= n; ++j) {
+            st[primes[j] * i] = true;
+            if (i % primes[j] == 0) break;
+        }
+    }
+}
+```
+
+### 筛法求欧拉函数
+
+```c++
+const int MXN = 1e5 + 5;
+int primes[MXN], euler[MXN], prime_cnt; 
+bool st[MXN];
+void sieve_eulers(int n) { // 筛法求欧拉函数
+    euler[1] = 1;
+    for (int i = 2; i <= n; ++i) {
+        if (!st[i]) {
+            primes[prime_cnt++] = i;
+            euler[i] = i - 1;
+        }
+        for (int j = 0; primes[j] * 1ll * i <= n; ++j) {
+            int t = primes[j] * i;
+            st[t] = true;
+            if (i % primes[j] == 0) {
+                euler[t] = euler[i] * primes[j];
+                break;
+            }
+            euler[t] = euler[i] * (primes[j] - 1);
+        }
+    }
+}
+```
+
+### 筛法求约数个数
+
+给定一个n， 输出1-n每个数的约数个数。
+
++ 1 <= n <= 1e6
+
+```c++
+const int MXN = 1e6 + 5;
+int primes[MXN], prime_cnt; 
+bool st[MXN];
+int a[MXN], d[MXN]; //a[i]记录i的最小质因子的次数，d[i]记录i的约数个数
+void count_divs(int n) {
+    d[1] = 1;
+    for (int i = 2; i <= n; ++i) {
+        if (!st[i]) {
+            primes[prime_cnt++] = i;
+            a[i] = 1, d[i] = 2;
+        }
+        for (int j = 0; primes[j] * 1ll * i <= n; j++) {
+            int t = primes[j] * i;
+            st[t] = true;
+            if (i % primes[j] == 0) {
+                a[t] = a[i] + 1;
+                d[t] = d[i] / a[t] * (a[t] + 1);
+                break;
+            } else a[t] = 1, d[t] = d[i] * 2;
+        }
+    }
+}
+```
+
+###  筛法求约数和
+
+给定一个n， 输出1-n每个数的约数和。
+
+1 <= n <= 1e6
+
+
+```c++
+const int MXN = 1e6 + 5;
+int primes[MXN], prime_cnt; 
+bool st[MXN];
+int g[MXN], f[MXN]; //f[i]记录i的约数和
+void divs_sum(int n) {
+    g[1] = f[1] = 1;
+    for (int i = 2; i <= n; ++i) {
+        if (!st[i]) {
+            primes[prime_cnt++] = i;
+            g[i] = g[i] = i + 1;
+        }
+        for (int j = 0; primes[j] * 1ll * i <= n; j++) {
+            int t = primes[j] * i;
+            st[t] = true;
+            if (i % primes[j] == 0) {
+                g[t] = g[i] * primes[j] + 1;
+                f[t] = f[i] / g[i] * g[t];
+                break;
+            } else g[t] = primes[j] + 1, f[t] = f[i] * g[t];
+        }
+    }
+}
+```
+
+## 筛法求莫比乌斯函数
+
+莫比乌斯函数定义
+
++ n = 1 时, mu(n) = 1
++ 当n含有相同质因子时， mu(n) = 0
++ n 不含相同质因子时，mu(n)=(-1)^s， 其中s为n的不同质因子的个数
+
+```c++
+const int MXN = 1e6 + 5;
+int primes[MXN], mu[MXN], prime_cnt; 
+bool st[MXN];
+void moebius_table(int n) {
+    mu[1] = 1;
+    for (int i = 2; i <= n; ++i) {
+        if (!st[i]) {
+            primes[prime_cnt++] = i;
+            mu[i] = -1;
+        }
+        for (int j = 0; primes[j] * 1ll * i <= n; j++) {
+            int t = primes[j] * i;
+            st[t] = true;
+            if (i % primes[j] == 0) {
+                mu[t] = 0;
+                break;
+            } else mu[t] = -mu[i];
+        }
+    }
+}
+```
 
 
 ## 素数
@@ -65,23 +331,6 @@ void sieve(int n) {
         primes[cnt ++ ] = i;
         for (int j = 2 * i; j <= n; j += i)
             st[j] = true;
-    }
-}
-```
-
-### 线性素数筛
-
-```c++
-const int MXN = 1e5 + 5;
-int primes[MXN], prime_cnt; 
-bool st[MXN];
-void sieve(int n) {  // 筛小于等于n的所有素数 MXN 要大于n
-    for (int i = 2; i <= n; ++i) {
-        if (!st[i]) primes[prime_cnt++] = i;
-        for (int j = 0; primes[j] * 1ll * i <= n; ++j) {
-            st[primes[j] * i] = true;
-            if (i % primes[j] == 0) break;
-        }
     }
 }
 ```
@@ -458,9 +707,6 @@ ll mul64(ll a, ll b, ll p) { // 64位整数相乘
 ```
 
 
-## 欧拉函数
-
-
 ### 求x的欧拉函数
 
 ```
@@ -482,31 +728,6 @@ int phi(int x) {  //欧拉函数(1-n中与n互质的数)
 }
 ```
 
-### 筛法求欧拉函数
-
-```c++
-const int MXN = 1e5 + 5;
-int euler[MXN], prime_cnt; 
-bool st[MXN];
-void sieve_eulers(int n) { // 筛法求欧拉函数
-    euler[1] = 1;
-    for (int i = 2; i <= n; ++i) {
-        if (!st[i]) {
-            primes[prime_cnt++] = i;
-            euler[i] = i - 1;
-        }
-        for (int j = 0; primes[j] * 1ll * i <= n; ++j) {
-            int t = primes[j] * i;
-            st[t] = true;
-            if (i % primes[j] == 0) {
-                euler[t] = euler[i] * primes[j];
-                break;
-            }
-            euler[t] = euler[i] * (primes[j] - 1);
-        }
-    }
-}
-```
 
 ## 约数个数和约数之和
 
@@ -624,100 +845,6 @@ int main() {
 }
 ```
 
-## 筛法求约数个数
-
-给定一个n， 输出1-n每个数的约数个数。
-
-+ 1 <= n <= 1e6
-
-```c++
-const int MXN = 1e6 + 5;
-int primes[MXN], prime_cnt; 
-bool st[MXN];
-int a[MXN], d[MXN]; //a[i]记录i的最小质因子的次数，d[i]记录i的约数个数
-void count_divs(int n) {
-    d[1] = 1;
-    for (int i = 2; i <= n; ++i) {
-        if (!st[i]) {
-            primes[prime_cnt++] = i;
-            a[i] = 1, d[i] = 2;
-        }
-        for (int j = 0; primes[j] * 1ll * i <= n; j++) {
-            int t = primes[j] * i;
-            st[t] = true;
-            if (i % primes[j] == 0) {
-                a[t] = a[i] + 1;
-                d[t] = d[i] / a[t] * (a[t] + 1);
-                break;
-            } else a[t] = 1, d[t] = d[i] * 2;
-        }
-    }
-}
-```
-
-## 筛法求约数和
-
-给定一个n， 输出1-n每个数的约数和。
-
-1 <= n <= 1e6
-
-
-```c++
-const int MXN = 1e6 + 5;
-int primes[MXN], prime_cnt; 
-bool st[MXN];
-int g[MXN], f[MXN]; //f[i]记录i的约数和
-void count_divs(int n) {
-    g[1] = f[1] = 1;
-    for (int i = 2; i <= n; ++i) {
-        if (!st[i]) {
-            primes[prime_cnt++] = i;
-            g[i] = g[i] = i + 1;
-        }
-        for (int j = 0; primes[j] * 1ll * i <= n; j++) {
-            int t = primes[j] * i;
-            st[t] = true;
-            if (i % primes[j] == 0) {
-                g[t] = g[i] * primes[j] + 1;
-                f[t] = f[i] / g[i] * g[t];
-                break;
-            } else g[t] = primes[j] + 1, f[t] = f[i] * g[t];
-        }
-    }
-}
-```
-
-## 筛法求莫比乌斯函数
-
-莫比乌斯函数定义
-
-+ n = 1 时, mu(n) = 1
-+ 当n含有相同质因子时， mu(n) = 0
-+ n 不含相同质因子时，mu(n)=(-1)^s， 其中s为n的不同质因子的个数
-
-```c++
-const int MXN = 1e6 + 5;
-int primes[MXN], prime_cnt; 
-bool st[MXN];
-int mu[MXN]; 
-void count_divs(int n) {
-    mu[1] = 1;
-    for (int i = 2; i <= n; ++i) {
-        if (!st[i]) {
-            primes[prime_cnt++] = i;
-            mu[i] = -1;
-        }
-        for (int j = 0; primes[j] * 1ll * i <= n; j++) {
-            int t = primes[j] * i;
-            st[t] = true;
-            if (i % primes[j] == 0) {
-                mu[t] = 0
-                break;
-            } else mu[t] = -mu[j];
-        }
-    }
-}
-```
 
 ## 裴蜀定理与扩展欧几里德
 
