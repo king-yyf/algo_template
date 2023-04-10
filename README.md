@@ -265,8 +265,8 @@
      <tr>
         <td rowspan="4">位运算</td>
         <td>bitset</td>
-        <td><a href="./graph/Dijkstra.md">bitset</a></td>
-        <td><a href="./graph/Dijkstra.cpp">bitset</a></td>
+        <td><a href="./bits/bitset.md">bitset</a></td>
+        <td><a href="./bits/bitset.md">bitset</a></td>
     </tr>
      <tr>
         <td>位运算</td>
