@@ -320,7 +320,7 @@
         <td><a href="./base_algo/interval.cpp">维护区间(交/并)</a></td>
     </tr>
     <tr>
-        <td rowspan="6">杂项</td>
+        <td rowspan="7">杂项</td>
         <td>莫队</td>
         <td><a href="./graph/Dijkstra.md">莫队</a></td>
         <td><a href="./graph/Dijkstra.cpp">莫队</a></td>
@@ -349,5 +349,10 @@
         <td>动态mex</td>
         <td><a href="./misc/set_mex.md">动态mex</a></td>
         <td><a href="./misc/set_mex.md">动态mex</a></td>
+    </tr>
+    <tr>
+        <td>辅助工具</td>
+        <td><a href="./misc/util.md">辅助工具</a></td>
+        <td><a href="./misc/util.md">辅助工具</a></td>
     </tr>
 </table>

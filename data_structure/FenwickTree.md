@@ -20,12 +20,12 @@ struct FenwickTree {
         for (int i = x + 1; i <= n; i += i & -i) a[i - 1] += v;
     }
     T sum(int x) {
-        T ans = 0;
+        T ans{};
         for (int i = min(x + 1, n); i > 0; i -= i & -i) ans += a[i - 1];
         return ans;
     }
     T sum(int l, int r) { //sum[l..r]
-        return l <= r ? sum(r) - sum(l - 1) : 0; 
+        return l <= r ? sum(r) - sum(l - 1) : T{}; 
     }
     T get(int x) const {   // 0 <= x < n, get a[x] in O(1), Equivalent to sum(x, x).
         T s = a[x];
