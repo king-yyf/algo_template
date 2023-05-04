@@ -167,8 +167,8 @@
     </tr>
     <tr>
         <td>最小生成树</td>
-        <td><a href="./graph/SPFA.md">最小生成树</a></td>
-        <td><a href="./graph/SPFA.cpp">最小生成树</a></td>
+        <td><a href="./graph/mst.md">最小生成树</a></td>
+        <td><a href="./graph/mst.md">最小生成树</a></td>
     </tr>
     <tr>
         <td>最短路径树</td>
