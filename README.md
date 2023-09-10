@@ -203,8 +203,8 @@
     </tr>
     <tr>
         <td>矩阵快速幂</td>
-        <td><a href="./graph/SPFA.md">矩阵快速幂</a></td>
-        <td><a href="./graph/SPFA.cpp">矩阵快速幂</a></td>
+        <td><a href="./math/matrix.md">矩阵快速幂</a></td>
+        <td><a href="https://king-yyf.github.io/2022/09/matrix/">矩阵快速幂</a></td>
     </tr>
     <tr>
         <td>容斥原理</td>
