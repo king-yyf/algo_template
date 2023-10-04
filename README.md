@@ -320,7 +320,7 @@
         <td><a href="./base_algo/interval.cpp">维护区间(交/并)</a></td>
     </tr>
     <tr>
-        <td rowspan="7">杂项</td>
+        <td rowspan="8">杂项</td>
         <td>莫队</td>
         <td><a href="./graph/Dijkstra.md">莫队</a></td>
         <td><a href="./graph/Dijkstra.cpp">莫队</a></td>
