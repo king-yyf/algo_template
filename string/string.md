@@ -40,22 +40,65 @@ Index
 ### manacher模板
 
 ```c++
-void manacher(string s){
-    int n = s.size();
-    vector<int> d1(n), d2(n);
-    for (int i = 0, l = 0, r = -1; i < n; i++) {
-        int k = (i > r) ? 1 : min(d1[l + r - i], r - i + 1);
-        while (0 <= i - k && i + k < n && s[i - k] == s[i + k]) k++;
-        d1[i] = k--;
-        if (i + k > r) l = i - k, r = i + k;
+struct Manacher {
+    int n;
+    vector<int> d1, d2;
+    Manacher() {}
+    Manacher(const string &s) {
+        vector<int> a(s.begin(), s.end());
+        build(a);
     }
-    for (int i = 0, l = 0, r = -1; i < n; i++) {
-        int k = (i > r) ? 0 : min(d2[l + r - i + 1], r - i + 1);
-        while (0 <= i - k - 1 && i + k < n && s[i - k - 1] == s[i + k]) k++;
-        d2[i] = k--;
-        if (i + k > r) l = i - k - 1, r = i + k;
+    Manacher(vector<int> &a) {build(a);}
+    void build(vector<int> &s) {
+        n = s.size();
+        d1.resize(n); d2.resize(n);
+        for (int i = 0, l = 0, r = -1; i < n; i++) {
+            int k = (i > r) ? 1 : min(d1[l + r - i], r - i + 1);
+            while (0 <= i - k && i + k < n && s[i - k] == s[i + k]) k++;
+            d1[i] = k--;
+            if (i + k > r) l = i - k, r = i + k;
+        }
+        for (int i = 0, l = 0, r = -1; i < n; i++) {
+            int k = (i > r) ? 0 : min(d2[l + r - i + 1], r - i + 1);
+            while (0 <= i - k - 1 && i + k < n && s[i - k - 1] == s[i + k]) k++;
+            d2[i] = k--;
+            if (i + k > r) l = i - k - 1, r = i + k;
+        }
     }
-}
+    pair<int, int> longest_palin() { //最长回文子串<len, 左边界>
+        int mx = 0, l;
+        for (int i = 0; i < n; ++i) 
+            mx = max({mx, 2 * d1[i] - 1, 2 * d2[i]});
+        for (int i = 0; i < n; ++i) {
+            if (2 * d1[i] - 1 == mx) { l = i - d1[i] + 1; break; }
+            if (2 * d2[i] == mx) { l = i - d2[i]; break;}
+        }
+        return {mx, l};
+    }
+    bool is_palin(int l, int r) {   // check s[l..(r-1)] 0 <= l <= r < n
+        if ((r - l) % 2 == 0) return d2[(l + r) / 2] >= (r - l) / 2;
+        return d1[(l + r) / 2] >= (r - l + 1) / 2;
+    }
+    // 以2n-1个位置(n个字符和n-1个相邻字符点中间)为回文中心的最长回文子串长度
+    vector<int> enum_palin() {
+        vector<int> ans(2 * n - 1);
+        for (int i = 0, j = 0; i < n; ++i) {
+            ans[j++] = d1[i] * 2 - 1;
+            if (i < n - 1) ans[j++] = d2[i + 1] * 2;
+        }
+        return ans;
+    }
+    vector<int> palin_cnt() { // 每个位置开始的回文串数目,i<=j,s[i..j]是回文
+        vector<int> c(n);
+        c[0] = -1;
+        for (int i = 0; i < n; ++i) {
+            c[i + 1 - d1[i]]++, c[i - d2[i]]++;
+            if (i + 1 < n) c[i + 1] -= 2;
+        }    
+        for (int i = 1; i < n; ++i) c[i] += c[i - 1];
+        return c;
+    }
+};
 ```
 
 ### manacher说明
@@ -67,16 +110,29 @@ void manacher(string s){
 + d1[i]: 以位置 i 为中心的长度为奇数的回文串个数, 即 i 为中心长度为奇数的最长回文串的半径长度
 + d2[i]: 以位置 i 为中心的长度为偶数的回文串个数, 即 i 为中心长度为偶数的最长回文串的半径长度
 
-manacher算法求出d1,d2后可在O(1)的时间内判断s的任意区间是否是回文串,例如
-
-判断 s[l],s[l+1],...s[r-1]是否是回文串
++ 创建一个manacher
 
 ```c++
-auto is_palindrome = [&](int l, int r) {
-    if ((r - l) % 2 == 0)
-        return d2[(l + r) / 2] >= (r - l) / 2;
-    return d1[(l + r) / 2] >= (r - l + 1) / 2;
-};
+vector<int> a(n);
+Manacher m(a);
+//or
+string s;
+Manacher m(s);
+```
+
++ 判断s[l..(r-1)] 是否是回文串, 时间 O(1)
+
+```c++
+Manacher m(s);
+bool ok = m.is_palin(l, r);
+```
+
++ 最长回文子串 返回 <最长回文子串长度，满足长度的左边界>，如果有多个满足长度的子串，取开始下标最小的
+
+```c++
+Manacher m(s);
+auto [x,y]=m.longest_palin();
+        return s.substr(y,x);
 ```
 
 ## kmp
