@@ -253,7 +253,7 @@ void divs_sum(int n) {
     for (int i = 2; i <= n; ++i) {
         if (!st[i]) {
             primes[prime_cnt++] = i;
-            g[i] = g[i] = i + 1;
+            f[i] = g[i] = i + 1;
         }
         for (int j = 0; primes[j] * 1ll * i <= n; j++) {
             int t = primes[j] * i;
